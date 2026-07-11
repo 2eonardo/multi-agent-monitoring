@@ -179,3 +179,8 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
+
+# dataset and  map
+sea_land_mask_10m_Cecina.npz
+sea_land_mask_10m_Cecina.png
+
