@@ -7,6 +7,7 @@ DECAY_RATE = 0.95
 NUM_AGENTS = 5
 SENSOR_RANGE = 2 # in grid cells
 MAX_DISPLACEMENT = 3 #range of max step
+NUM_SAMPLES = 10
 
 # Start position of the agents (row, col)
 START_ROW = 100
