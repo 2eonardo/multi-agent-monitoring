@@ -180,6 +180,9 @@ cython_debug/
 .cursorignore
 .cursorindexingignore
 
+#.idea
+.idea
+
 # dataset and  map
 sea_land_mask_10m_Cecina.npz
 sea_land_mask_10m_Cecina.png

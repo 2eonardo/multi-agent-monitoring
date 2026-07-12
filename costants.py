@@ -5,7 +5,7 @@ DECAY_RATE = 0.95
 
 # agent parameters
 NUM_AGENTS = 5
-SENSOR_RANGE = 2 # in grid cells
+SENSOR_RANGE = 2 # Euclidean distance from the center of a cell to another
 MAX_DISPLACEMENT = 3 #range of max step
 NUM_SAMPLES = 10
 

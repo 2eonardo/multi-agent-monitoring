@@ -61,3 +61,15 @@ class Agent:
 
         return filtered
 
+    def find_goal_point(self, samples: list):
+        g_row = self.row
+        g_col = self.col
+        value = self.map.coverage_value
+        for p_row, p_col in samples:
+            coverage  = self.map.theorical_coverage(self, p_row, p_col)
+            if coverage > value:
+                value = coverage
+                g_row, g_col = p_row, p_col
+
+            #Miss operative flow when coverage value are the same 
+        return g_row, g_col
