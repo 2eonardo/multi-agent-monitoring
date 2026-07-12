@@ -1,16 +1,51 @@
-# This is a sample Python script.
+import sys
+from environment import Map
+from agent import Agent
+import costants as c
 
-# Press Maiusc+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+def main():
+    #Load map
+    try:
+        m = Map("sea_land_mask_10m_Cecina.npz")
+        print("Map successfully loaded")
+    except FileNotFoundError:
+        print("Error: Map file not found.")
+        sys.exit()
 
+    #Load agents
+    fleet= []
+    for i in range(c.NUM_AGENTS):
+        try:
+            new_agent =Agent(
+                start_row=c.START_ROW,
+                start_col=c.START_COL,
+                map_reference=m,
+                sensor_range=c.SENSOR_RANGE,
+                max_displacement=c.MAX_DISPLACEMENT
+            )
+            fleet.append(new_agent)
+        except ValueError as e:
+            print(f"Dettaglio: {e}")
+            sys.exit()
+    print(f"{len(fleet)} Agents successfully loaded")
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+    #Starting coverage
+    m.update_coverage_value()
 
+    coverage_history = [m.coverage_value]
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+    print("Starting simulation...")
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    for t in range(c.NUM_ITERATIONS):
+        print("Iteration: ", t)
+        m.decay(c.DECAY_RATE)
+        for agent in fleet:
+            agent.update_position(c.NUM_SAMPLES, fleet)
+
+        coverage_history.append(m.coverage_value)
+        print(f"Coverage value {t}: {m.coverage_value}")
+
+    print("\nSimulation completed.")
+
+if __name__ == "__main__":
+    main()

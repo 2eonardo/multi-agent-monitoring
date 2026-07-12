@@ -21,6 +21,8 @@ class Agent:
         self.map.cell_view(self.row, self.col, self.sensor_range)
 
     def get_samples(self, num_samples: int):
+
+        # Sampling based on a normal distribution
         rows = np.random.normal(loc=self.row, scale=self.max_displacement, size=num_samples)
         cols = np.random.normal(loc=self.col, scale=self.max_displacement, size=num_samples)
 
@@ -50,6 +52,11 @@ class Agent:
             for other in other_agents:
                 if other is self:
                     continue
+
+                # Allows start from a same position
+                if other.row == self.row and other.col == self.col:
+                    continue
+
                 dist_to_other = math.dist((other.row, other.col), (p_row, p_col))
 
                 if dist_to_other <= dist_to_self:
@@ -71,7 +78,7 @@ class Agent:
                 value = coverage
                 g_row, g_col = p_row, p_col
 
-            #Miss operative flow when coverage value are the same
+            #Missing operative flow when coverage value are the same
         return g_row, g_col
 
     def move_to(self, row: int, col: int):
@@ -84,5 +91,6 @@ class Agent:
         samples = self.filter_samples(samples, other_agents)
         row, col = self.find_goal_point(samples)
         self.move_to(row, col)
-        return self.map.update_coverage_value()
+        value = self.map.update_coverage_value()
+        return value
 

@@ -4,12 +4,12 @@ import numpy as np
 class Map:
     def __init__(self, filename="sea_land_mask_10m_Cecina.npz"):
         #Load Map
-        data = np.load(filename)
+        data = np.load(filename) # 39.330 Number o sea cells
         #store data
         self.x = data["x"]
         self.y = data["y"]
-        self.sea_mask = data["sea_mask"]
-        self.land_mask = data["land_mask"]
+        self.sea_mask = data["sea_mask"].astype(bool)
+        self.land_mask = data["land_mask"].astype(bool)
         #grid of monitoring value
         self.shape = self.land_mask.shape
         self.grid = np.zeros(self.shape)
