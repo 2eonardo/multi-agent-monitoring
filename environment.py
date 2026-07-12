@@ -45,6 +45,7 @@ class Map:
         return False
 
     # Set cell value to 1 when visited by a robot.
+    # Missing algorithm to handle land barriers between sea cells
     def cell_view(self, row, col, radius):
         if radius == 0:
             if self.is_sea(row, col):

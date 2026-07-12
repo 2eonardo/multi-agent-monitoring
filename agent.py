@@ -71,5 +71,18 @@ class Agent:
                 value = coverage
                 g_row, g_col = p_row, p_col
 
-            #Miss operative flow when coverage value are the same 
+            #Miss operative flow when coverage value are the same
         return g_row, g_col
+
+    def move_to(self, row: int, col: int):
+        self.row = row
+        self.col = col
+        self.map.cell_view(row, col, self.sensor_range)
+
+    def update_position(self, num_samples: int, other_agents: list):
+        samples = self.get_samples(num_samples)
+        samples = self.filter_samples(samples, other_agents)
+        row, col = self.find_goal_point(samples)
+        self.move_to(row, col)
+        return self.map.update_coverage_value()
+
