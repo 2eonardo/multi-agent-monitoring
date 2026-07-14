@@ -46,7 +46,9 @@ def main():
         print("Iteration: ", t)
         print(f"Coverage value {t}: {m.coverage_value}")
 
+    # If you want to write the name of the table add the extension
     p.save_coverage_table(coverage_history,c.ITERATIONS_STEP)
+    p.save_coverage_plot(coverage_history, c.ITERATIONS_STEP)
 
     print("\nSimulation completed.")
 

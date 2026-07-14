@@ -2,7 +2,7 @@
 
 # Number of iteration
 NUM_ITERATIONS = 100
-ITERATIONS_STEP =10
+ITERATIONS_STEP = NUM_ITERATIONS//10
 
 # map parameters
 DECAY_RATE = 0.95
