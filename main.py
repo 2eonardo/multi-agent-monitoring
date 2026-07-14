@@ -2,6 +2,7 @@ import sys
 from environment import Map
 from agent import Agent
 import costants as c
+import plots as p
 
 def main():
     #Load map
@@ -29,21 +30,23 @@ def main():
             sys.exit()
     print(f"{len(fleet)} Agents successfully loaded")
 
-    #Starting coverage
+    print("Starting simulation...")
     m.update_coverage_value()
 
     coverage_history = [m.coverage_value]
+    print("Iteration: ", 0)
+    print(f"Coverage value 0: {m.coverage_value}")
 
-    print("Starting simulation...")
-
-    for t in range(c.NUM_ITERATIONS):
-        print("Iteration: ", t)
+    for t in range(1, c.NUM_ITERATIONS+1):
         m.decay(c.DECAY_RATE)
         for agent in fleet:
             agent.update_position(c.NUM_SAMPLES, fleet)
 
         coverage_history.append(m.coverage_value)
+        print("Iteration: ", t)
         print(f"Coverage value {t}: {m.coverage_value}")
+
+    p.save_coverage_table(coverage_history,c.ITERATIONS_STEP)
 
     print("\nSimulation completed.")
 
