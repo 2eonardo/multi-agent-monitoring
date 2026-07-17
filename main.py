@@ -1,8 +1,10 @@
+import pickle
 import sys
 from environment import Map
 from agent import Agent
 import costants as c
 import plots as p
+import renderer as r
 
 def main():
     #Load map
@@ -34,6 +36,10 @@ def main():
     m.update_coverage_value()
 
     coverage_history = [m.coverage_value]
+
+    # Sequence of agents position
+    trajectory = [{"positions": [(a.col, a.row) for a in fleet]}]
+
     print("Iteration: ", 0)
     print(f"Coverage value 0: {m.coverage_value}")
 
@@ -46,11 +52,28 @@ def main():
         print("Iteration: ", t)
         print(f"Coverage value {t}: {m.coverage_value}")
 
-    # If you want to write the name of the table add the extension
-    p.save_coverage_table(coverage_history,c.ITERATIONS_STEP)
-    p.save_coverage_plot(coverage_history, c.ITERATIONS_STEP)
+        # State for each t
+        trajectory.append({"positions": [(a.col, a.row) for a in fleet]})
+
+    # Storage simulation data
+    log_data = {
+        "map_file_name": "sea_land_mask_10m_Cecina.npz",
+        "sensor_range": c.SENSOR_RANGE,
+        "decay_rate": c.DECAY_RATE,
+        "coverage_history": coverage_history,
+        "trajectory": trajectory
+    }
 
     print("\nSimulation completed.")
+
+    # Save data file
+    file_name_log = "simulation_log.pkl"
+    try:
+        with open(file_name_log, "wb") as f:
+            pickle.dump(log_data, f)
+        print(f"Simulation Log saved as '{file_name_log}'.")
+    except Exception as e:
+        print(f"Error during Log saving: {e}")
 
 if __name__ == "__main__":
     main()
