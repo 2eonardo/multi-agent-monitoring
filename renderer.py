@@ -23,16 +23,16 @@ def generate_video_from_log(log_data, video_name="simulation_video.mp4", fps=15,
 
     # Init video writer (requires: pip install imageio[ffmpeg])
     if imageio is None:
-        print("\n[Avviso] Library 'imageio' is not installed.")
-        print("Impossible produce video. Only static PNG frames will be saved, imageio[ffmpeg] is required for video generation.")
+        print("\n[Warning] Library 'imageio' is not installed.")
+        print("Cannot produce video. Only static PNG frames will be saved; imageio[ffmpeg] is required for video generation.")
         writer = None
     else:
         print(f"\n Video generation '{video_name}'...")
         try:
             writer = imageio.get_writer(video_name, format='FFMPEG', mode='I', fps=fps, macro_block_size=None)
         except Exception as e:
-            print(f"[Avviso] Error start writer: {e}")
-            print("Impossible produce video. Only static PNG frames will be saved, imageio[ffmpeg] is required for video generation.")
+            print(f"[Warning] Error starting writer: {e}")
+            print("Cannot produce video. Only static PNG frames will be saved; imageio[ffmpeg] is required for video generation.")
             writer = None
 
     # Parameters extraction from log
@@ -47,7 +47,7 @@ def generate_video_from_log(log_data, video_name="simulation_video.mp4", fps=15,
     num_agents = len(log_data["trajectory"][0]["positions"])
     path_histories = [[] for _ in range(num_agents)]
 
-    # Time cicle reconstruction and drawing of all frames
+    # Time cycle reconstruction and drawing of all frames
     for t, step_data in enumerate(log_data["trajectory"]):
         # Save position istant t
         positions = step_data["positions"]
@@ -92,11 +92,11 @@ def generate_video_from_log(log_data, video_name="simulation_video.mp4", fps=15,
 
         # Print agents position and sensor range
         for idx, p in enumerate(positions):
-            robot_x, robot_y = p
+            agent_x, agent_y = p
 
             # Sensor ring
             circle = patches.Circle(
-                (robot_x, robot_y),
+                (agent_x, agent_y),
                 radius=sensor_range,
                 facecolor='cyan',
                 edgecolor='cyan',
@@ -108,32 +108,32 @@ def generate_video_from_log(log_data, video_name="simulation_video.mp4", fps=15,
             ax.add_patch(circle)
 
             # Agent icon
-            label_uav = 'UAV (Drone)' if idx == 0 else ""
+            label_agent = 'Agent' if idx == 0 else ""
             ax.scatter(
-                robot_x, robot_y,
+                agent_x, agent_y,
                 marker='^',
                 color='red',
                 s=25,
                 edgecolor='black',
                 linewidth=0.5,
                 zorder=5,
-                label=label_uav
+                label=label_agent
             )
 
-            # Calculation control of map coverage value
-            recalculated_coverage = m.update_coverage_value()
-            original_coverage = log_data["coverage_history"][t]
+        # Calculation control of map coverage value
+        recalculated_coverage = m.update_coverage_value()
+        original_coverage = log_data["coverage_history"][t]
 
-            # Tolerance for float values
-            is_correct = abs(recalculated_coverage - original_coverage) < 0.1
+        # Tolerance for float values
+        is_correct = abs(recalculated_coverage - original_coverage) < 0.1
 
-            if not is_correct:
-                raise ValueError(
-                    f"\n[Serious error] differences observed in the map coverage value  t = {t}!\n"
-                    f" - recalculated value: {recalculated_coverage:.4f}\n"
-                    f" - original value: {original_coverage:.4f}\n"
-                    f"Verify the parameters"
-                )
+        if not is_correct:
+            raise ValueError(
+                f"\n[Serious error] differences observed in the map coverage value  t = {t}!\n"
+                f" - recalculated value: {recalculated_coverage:.4f}\n"
+                f" - original value: {original_coverage:.4f}\n"
+                f"Verify the parameters"
+            )
 
         ax.set_title(f"Multi-Agent Exploration System - Time Istant t = {t}", fontsize=14, fontweight='bold',
                      pad=15)

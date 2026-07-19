@@ -28,7 +28,7 @@ def main():
             )
             fleet.append(new_agent)
         except ValueError as e:
-            print(f"Dettaglio: {e}")
+            print(f"Detail: {e}")
             sys.exit()
     print(f"{len(fleet)} Agents successfully loaded")
 
