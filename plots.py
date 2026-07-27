@@ -1,7 +1,8 @@
 import matplotlib.pyplot as plt
+import os
 
 
-def save_coverage_table(coverage_history, iteration_step = 1, filename= "coverage_table.png"):
+def save_coverage_table(coverage_history, iteration_step, path):
     # Data preparation for the table
     table_data = []
     # Initial state
@@ -33,12 +34,15 @@ def save_coverage_table(coverage_history, iteration_step = 1, filename= "coverag
     table.scale(1.2, 1.4)  # Scaling table
 
     #Save file
-    #plt.savefig(filename, bbox_inches='tight', dpi=300)
-    plt.show()
+    repository = os.path.dirname(path)
+    if repository:
+        os.makedirs(repository, exist_ok=True)
+    plt.savefig(path, bbox_inches='tight', dpi=300)
+    #plt.show()
     plt.close()
-    print(f"Table saved as {filename}.")
+    print(f"Table saved in {path}.")
 
-def save_coverage_plot(coverage_history, iteration_step, filename= "coverage_plot.png"):
+def save_coverage_plot(coverage_history, iteration_step, path="coverage_plot.png"):
     # Figure dimension
     plt.figure(figsize=(10, 6))
 
@@ -70,7 +74,10 @@ def save_coverage_plot(coverage_history, iteration_step, filename= "coverage_plo
     plt.legend(loc='lower right')
 
     # Save plot
-    # plt.savefig("coverage_trend.png", bbox_inches='tight', dpi=300)
-    plt.show()
+    repository = os.path.dirname(path)
+    if repository:
+        os.makedirs(repository, exist_ok=True)
+    plt.savefig(path, bbox_inches='tight', dpi=300)
+    #plt.show()
     plt.close()
-    print(f"Plot saved as {filename}.")
+    print(f"Plot saved in {path}.")

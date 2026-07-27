@@ -3,8 +3,7 @@ import sys
 from environment import Map
 from agent import Agent
 import costants as c
-import plots as p
-import renderer as r
+import os
 
 def main():
     #Load map
@@ -67,11 +66,12 @@ def main():
     print("\nSimulation completed.")
 
     # Save data file
-    file_name_log = "simulation_log.pkl"
+    file_name_log = "results/simulation_log.pkl"
     try:
+        os.makedirs("results", exist_ok=True)
         with open(file_name_log, "wb") as f:
             pickle.dump(log_data, f)
-        print(f"Simulation Log saved as '{file_name_log}'.")
+        print(f"Simulation Log saved in'{file_name_log}'.")
     except Exception as e:
         print(f"Error during Log saving: {e}")
 

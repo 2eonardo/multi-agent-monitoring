@@ -6,15 +6,15 @@ import costants as c
 
 
 def main():
-    nome_file_log = "simulation_log.pkl"
+    name_log_file = "results/simulation_log.pkl"
 
     # Load log_data
     try:
-        with open(nome_file_log, "rb") as f:
+        with open(name_log_file, "rb") as f:
             log_data = pickle.load(f)
-        print(f"Simulation log successfully loaded from '{nome_file_log}'.")
+        print(f"Simulation log successfully loaded from '{name_log_file}'.")
     except FileNotFoundError:
-        print(f"Error: the file '{nome_file_log}' does not exist.")
+        print(f"Error: the file '{name_log_file}' does not exist.")
         print("Make sure to run 'main.py' first to generate the numeric data!")
         sys.exit(1)
     except Exception as e:
@@ -26,20 +26,15 @@ def main():
 
     # Generation of tables and plots
     print("\n[Phase 1] Generating tables and trend plots...")
-    p.save_coverage_table(coverage_history, c.ITERATIONS_STEP)
-    p.save_coverage_plot(coverage_history, c.ITERATIONS_STEP)
+    p.save_coverage_table(coverage_history, c.ITERATIONS_STEP, "results/coverage_table.png")
+    p.save_coverage_plot(coverage_history, c.ITERATIONS_STEP, "results/coverage_plot.png")
 
     # Generation video and frame
     print("\n[Phase 2] Starting rendering...")
 
     try:
-        r.generate_video_from_log(
-            log_data,
-            video_name="simulation_video.mp4",
-            fps=8,
-            iteration_step=c.ITERATIONS_STEP,
-            output_dir="frames"
-        )
+        r.generate_video_from_log(log_data, video_path="results/simulation_video.mp4", fps=8,
+                                  iteration_step=c.ITERATIONS_STEP, frames_path="results/frames")
     except ValueError as e:
         print(f"\n[CRITICAL ERROR] {e}")
         sys.exit(1)

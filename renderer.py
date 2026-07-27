@@ -10,16 +10,14 @@ except ImportError:
     imageio = None
 
 
-def generate_video_from_log(log_data, video_name="simulation_video.mp4", fps=15, iteration_step=1,
-                            output_dir="frames"):
+def generate_video_from_log(log_data, video_path, fps, iteration_step, frames_path):
     """
     Read log file and make:
     1. A mp4 video file.
     2. Save some key frames.
     """
     # Create frames repository if it does not exist
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir, exist_ok=True)
+    os.makedirs(frames_path, exist_ok=True)
 
     # Init video writer (requires: pip install imageio[ffmpeg])
     if imageio is None:
@@ -27,9 +25,12 @@ def generate_video_from_log(log_data, video_name="simulation_video.mp4", fps=15,
         print("Cannot produce video. Only static PNG frames will be saved; imageio[ffmpeg] is required for video generation.")
         writer = None
     else:
-        print(f"\n Video generation '{video_name}'...")
+        print(f"\n Video generation '{video_path}'...")
         try:
-            writer = imageio.get_writer(video_name, format='FFMPEG', mode='I', fps=fps, macro_block_size=None)
+            repository = os.path.dirname(video_path)
+            if repository:
+                os.makedirs(repository, exist_ok=True)
+            writer = imageio.get_writer(video_path, format='FFMPEG', mode='I', fps=fps, macro_block_size=None)
         except Exception as e:
             print(f"[Warning] Error starting writer: {e}")
             print("Cannot produce video. Only static PNG frames will be saved; imageio[ffmpeg] is required for video generation.")
@@ -70,7 +71,7 @@ def generate_video_from_log(log_data, video_name="simulation_video.mp4", fps=15,
         ax.set_xlim(0, m.shape[1])
         ax.set_ylim(m.shape[0], 0)
 
-        # Coveerage grid
+        # Coverage grid
         # Exclude not viewed cell (coverage value < 1%), color: navy, and land cell, color : green
         masked_grid = np.ma.masked_where((~m.sea_mask) | (m.grid < 0.01), m.grid)
         #Print sea area visited
@@ -157,7 +158,7 @@ def generate_video_from_log(log_data, video_name="simulation_video.mp4", fps=15,
 
         # Frame saving
         if t % iteration_step == 0:
-            save_path = os.path.join(output_dir, f"frame_{t:04d}.png")
+            save_path = os.path.join(frames_path, f"frame_{t:04d}.png")
             plt.savefig(save_path, bbox_inches='tight', dpi=150)
 
         plt.close(fig)
@@ -165,4 +166,4 @@ def generate_video_from_log(log_data, video_name="simulation_video.mp4", fps=15,
     # Secure Writer shutdown
     if writer is not None:
         writer.close()
-        print(f"MP4 video successfully generated: '{video_name}'")
+        print(f"MP4 video successfully generated: '{video_path}'")
