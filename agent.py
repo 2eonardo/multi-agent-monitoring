@@ -88,10 +88,13 @@ class Agent:
         self.col = col
         self.map.cell_view(row, col, self.sensor_range)
 
-    def update_position(self, num_samples: int, other_agents: list):
+    def find_next_position(self, num_samples: int, other_agents: list):
         samples = self.get_samples(num_samples)
         samples = self.filter_samples(samples, other_agents)
         row, col = self.find_goal_point(samples)
+        return row, col
+
+    def update_position(self, row, col):
         self.move_to(row, col)
         value = self.map.update_coverage_value()
         return value

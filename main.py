@@ -45,9 +45,18 @@ def main():
     for t in range(1, c.NUM_ITERATIONS+1):
         m.decay(c.DECAY_RATE)
         m.update_coverage_value()
-        # Add simultaneous simulation
+        # Simultaneous simulation
+        next_position = []
         for agent in fleet:
-            agent.update_position(c.NUM_SAMPLES, fleet)
+            row, col = agent.find_next_position(c.NUM_SAMPLES, fleet)
+            next_position.append((row, col))
+        for i, agent in enumerate(fleet):
+            row, col = next_position[i]
+            agent.update_position(row, col)
+
+        # for agent in fleet:
+        #     row, col = agent.find_next_position(c.NUM_SAMPLES, fleet)
+        #     agent.update_position(row, col)
 
         coverage_history.append(m.coverage_value)
         print("Iteration: ", t)
