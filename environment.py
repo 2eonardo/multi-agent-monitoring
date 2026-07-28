@@ -1,5 +1,6 @@
 import math
 import numpy as np
+from bresenham_utilis import get_visible_cells
 
 class Map:
     def __init__(self, filename="sea_land_mask_10m_Cecina.npz"):
@@ -52,12 +53,17 @@ class Map:
                 self.grid[row, col] = 1.0
                 return True
             return False
+
+        cell_viewed = get_visible_cells(row, col, radius, self)
         any_cell_updated = False
-        for r in range(row - radius, row + radius + 1):
-            for c in range(col - radius, col + radius + 1):
-                if self.is_sea(r, c) and math.dist((row, col), (r, c)) <= radius:
-                    self.grid[r, c] = 1.0
-                    any_cell_updated = True
+        for r, c in cell_viewed:
+            self.grid[r, c] = 1.0
+            any_cell_updated = True
+        # for r in range(row - radius, row + radius + 1):
+        #     for c in range(col - radius, col + radius + 1):
+        #         if self.is_sea(r, c) and math.dist((row, col), (r, c)) <= radius:
+        #             self.grid[r, c] = 1.0
+        #             any_cell_updated = True
         return any_cell_updated
 
     # decay function

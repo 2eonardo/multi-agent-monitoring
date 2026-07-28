@@ -44,6 +44,8 @@ def main():
 
     for t in range(1, c.NUM_ITERATIONS+1):
         m.decay(c.DECAY_RATE)
+        m.update_coverage_value()
+        # Add simultaneous simulation
         for agent in fleet:
             agent.update_position(c.NUM_SAMPLES, fleet)
 

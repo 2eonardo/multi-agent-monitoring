@@ -1,5 +1,5 @@
 import math
-
+from bresenham_utilis import is_path_free
 import numpy as np
 
 
@@ -48,7 +48,7 @@ class Agent:
             dist_to_self = math.dist((self.row, self.col), (p_row, p_col))
 
             is_closest_to_self = True
-            #Check if any other agent is closer to the sampled point than self
+            # Check if any other agent is closer to the sampled point than self
             for other in other_agents:
                 if other is self:
                     continue
@@ -64,7 +64,9 @@ class Agent:
                     break
 
             if is_closest_to_self:
-                filtered.append((p_row, p_col))
+                # Check that the straight-line trajectory does not hit the land
+                if is_path_free(self.row, self.col, p_row, p_col, self.map):
+                    filtered.append((p_row, p_col))
 
         return filtered
 
