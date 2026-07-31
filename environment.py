@@ -59,11 +59,6 @@ class Map:
         for r, c in cell_viewed:
             self.grid[r, c] = 1.0
             any_cell_updated = True
-        # for r in range(row - radius, row + radius + 1):
-        #     for c in range(col - radius, col + radius + 1):
-        #         if self.is_sea(r, c) and math.dist((row, col), (r, c)) <= radius:
-        #             self.grid[r, c] = 1.0
-        #             any_cell_updated = True
         return any_cell_updated
 
     # decay function

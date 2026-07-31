@@ -54,10 +54,6 @@ def main():
             row, col = next_position[i]
             agent.update_position(row, col)
 
-        # for agent in fleet:
-        #     row, col = agent.find_next_position(c.NUM_SAMPLES, fleet)
-        #     agent.update_position(row, col)
-
         coverage_history.append(m.coverage_value)
         print("Iteration: ", t)
         print(f"Coverage value {t}: {m.coverage_value}")
