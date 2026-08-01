@@ -23,10 +23,11 @@ def main():
 
     # Extract coverage history from log_data
     coverage_history = log_data["coverage_history"]
+    coverage_percent_history = log_data["coverage_percent_history"]
 
     # Generation of tables and plots
     print("\n[Phase 1] Generating tables and trend plots...")
-    p.save_coverage_table(coverage_history, c.ITERATIONS_STEP, "results/coverage_table.png")
+    p.save_coverage_table(coverage_history, coverage_percent_history, c.ITERATIONS_STEP, "results/coverage_table.png")
     p.save_coverage_plot(coverage_history, c.ITERATIONS_STEP, "results/coverage_plot.png")
 
     # Generation video and frame

@@ -22,7 +22,7 @@ def random_spawn(start_row, start_col, spawn_radius, num_agents, map_reference):
     if len(candidate_points) < num_agents:
         raise ValueError("Insufficient number of sea cells")
 
-    # It is not a normal distribution
+    # It is not a normal distribution, but is a uniform distribution
     chosen_indices = np.random.choice(len(candidate_points), size=num_agents, replace=False)
 
     return [candidate_points[idx] for idx in chosen_indices]

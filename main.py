@@ -35,6 +35,7 @@ def main():
     m.update_coverage_value()
 
     coverage_history = [m.coverage_value]
+    coverage_percent_history = [(m.coverage_value/c.NUM_SEA_CELLS)*100]
 
     # Sequence of agents position
     trajectory = [{"positions": [(a.col, a.row) for a in fleet]}]
@@ -55,9 +56,9 @@ def main():
             agent.update_position(row, col)
 
         coverage_history.append(m.coverage_value)
+        coverage_percent_history.append((m.coverage_value/c.NUM_SEA_CELLS)*100)
         print("Iteration: ", t)
-        print(f"Coverage value {t}: {m.coverage_value}")
-
+        print(f"Coverage value {t}: {m.coverage_value} Coverage percent {t}: {(m.coverage_value/c.NUM_SEA_CELLS)*100:.2f}%")
         # State for each t
         trajectory.append({"positions": [(a.col, a.row) for a in fleet]})
 
@@ -67,6 +68,7 @@ def main():
         "sensor_range": c.SENSOR_RANGE,
         "decay_rate": c.DECAY_RATE,
         "coverage_history": coverage_history,
+        "coverage_percent_history": coverage_percent_history,
         "trajectory": trajectory
     }
 

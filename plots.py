@@ -1,17 +1,23 @@
 import matplotlib.pyplot as plt
 import os
+import costants
 
 
-def save_coverage_table(coverage_history, iteration_step, path):
+def save_coverage_table(coverage_history, coverage_percent_history, iteration_step, path):
     # Data preparation for the table
     table_data = []
-    # Initial state
-    #table_data.append([0, f"{coverage_history[0]:.4f}"])
 
     # Sampling the next iterations
     for i in range(0, len(coverage_history)):
         if i % iteration_step == 0:
-            table_data.append([i, f"{coverage_history[i]:.4f}"])
+            absolute_value = coverage_history[i]
+            percentage = coverage_percent_history[i]
+
+            table_data.append([
+                i,
+                f"{absolute_value:.4f}",
+                f"{percentage:.2f}%"
+            ])
 
     # figure configuration
     # The height adapts dynamically to the number of rows extracted
@@ -22,8 +28,8 @@ def save_coverage_table(coverage_history, iteration_step, path):
     # Creation of the table
     table = ax.table(
         cellText=table_data,
-        colLabels=["Time", "Coverage Value"],
-        colWidths=[0.25, 0.55],
+        colLabels=["Time", "Coverage Value", "Coverage (%)"],
+        colWidths=[0.20, 0.40, 0.40],
         loc='center',
         cellLoc='center'
     )
