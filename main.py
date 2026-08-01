@@ -1,6 +1,6 @@
 import pickle
 import sys
-from environment import Map
+from map import Map
 from agent import Agent
 import costants as c
 import os

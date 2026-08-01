@@ -1,6 +1,5 @@
-import math
 import numpy as np
-from bresenham_utilis import get_visible_cells
+from bresenham_utilities import get_visible_cells
 
 class Map:
     def __init__(self, filename="sea_land_mask_10m_Cecina.npz"):

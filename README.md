@@ -23,16 +23,16 @@ Il codice è suddiviso in moduli indipendenti, ciascuno dei quali racchiude funz
 
 ## Sviluppi Futuri e Scelte Implementative
 
-### 1. Posizione di Partenza degli Agenti (Spawn)
-*   **Stato attuale**: Gli agenti iniziano la simulazione da un unico punto fisso definito all'interno di `costants.py`.
-*   **Sviluppo futuro**: Possibile implementazione  di un sistema di partenze casuali degli agenti da celle di mare non sovrapposte.
+### 1. Partenza casuale degli agenti
+*   **Stato attuale**: Viene  estratta una posizione  casuale all'interno di un'area sferica definita dalla costante `AGENT_START_RADIUS`, l'estrazione è eseguita col codice `random.choice()`, che non segue una distribuzione normale, ma una distribuzione uniforme.
+*   **Sviluppo futuro**: Implementazione di un sistema che estragga le posizioni iniziali degli agenti secondo una distribuzione normale. Questa soluzione implica due alternative:
+    1.   Generare seguendo una distribuzione normale le coordinate x e y, e successivamente verificare che la posizione generata cada all'interno del raggio definito da `AGENT_START_RADIUS`, e che non sia già stata scelta.
+    2.   Utilizzare il metodo citato in precedenza passando come parametro la distribuzione normale, questo implica la definizione della distribuzione normale da utilizzare.
 ### 2. Gestione dei Pareggi di Copertura
 *   **Stato attuale**: Non è prevista nessuna gestione in caso di valori di copertura identici tra più celle candidate, durante la scelta della prossima destinazione dell'agente.
 *   **Nota**: In caso di pareggio di copertura, l'agente sceglie la prima cella candidata in ordine di scansione della griglia. L'agente si muove solamente se
 trova una cella che restituisce un valore di copertura maggiore di quello della cella corrente.
 * **Sviluppo futuro**: Implementazione di un sistema che gestisca i pareggi di copertura.
-### 3. Flusso di Coordinamento della Simulazione
-*   **Simulazione Simultanea (Attuale)**: Il ciclo corrente prevede che ogni robot calcoli la propria destinazione in base allo stato iniziale del turno. Successivamente, tutti i movimenti vengono applicati contemporaneamente.
-Così facendo, nessun agente è a conoscenza delle decisioni degli altri nello stesso istante.
-*   **Simulazione Sequenziale (Precedente)**: Inizialmente i robot pianificavano ed eseguivano la propria mossa uno dopo l'altro nello stesso turno. In questo scenario, gli agenti che agivano per ultimi possedevano già l'informazione aggiornata sulla mossa dei compagni.
+### 3. Introduzione grandezza fisica velocità degli agenti
+*   **Stato attuale**: La velocità degli agenti è una costante utilizzata insieme alla dimensione dei pixel e la durata di una singola iterazione per calcolare la massima distanza percorribile in ogni singolo step.
 

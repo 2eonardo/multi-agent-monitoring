@@ -1,5 +1,5 @@
 import math
-from bresenham_utilis import is_path_free
+from bresenham_utilities import is_path_free
 import numpy as np
 
 

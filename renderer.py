@@ -2,7 +2,7 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
-from environment import Map
+from map import Map
 
 try:
     import imageio.v2 as imageio

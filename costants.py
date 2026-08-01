@@ -3,6 +3,7 @@
 # Number of iteration
 NUM_ITERATIONS = 100
 ITERATIONS_STEP = NUM_ITERATIONS//10
+NUM_SAMPLES = 30
 
 # map parameters
 DECAY_RATE = 0.95
@@ -18,9 +19,7 @@ v_agent = 2
 pixel_dimension = 10
 # Single step duration t in sec
 TIMESTEP = 60
-
 MAX_DISPLACEMENT = (v_agent*TIMESTEP) // pixel_dimension #range of max step
-NUM_SAMPLES = 30
 
 # Start position of the agents (row, col)
 START_ROW = 100
@@ -28,3 +27,4 @@ START_COL = 150
 
 # Random start position of the agents (row, col)
 RANDOM_SPAWN = False
+SPAWN_RADIUS = 20 # Set to 391 minimum to cover all map
