@@ -91,13 +91,13 @@ def save_coverage_plot(coverage_history, iteration_step, path="coverage_plot.png
 def save_coverage_histogram(map_grid, sea_mask, path="results/coverage_histogram.png"):
     sea_values = map_grid[sea_mask]
 
-    plt.figure(figsize=(10, 6))
+    fig, ax = plt.subplots(figsize=(10, 6))
 
     # Intervals definition
     bins = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
 
     # Creation of Histogram
-    plt.hist(
+    ax.hist(
         sea_values,
         bins=bins,
         edgecolor='black',
@@ -106,13 +106,25 @@ def save_coverage_histogram(map_grid, sea_mask, path="results/coverage_histogram
         alpha=0.85
     )
 
-    # Label
-    plt.xlabel('Cell Coverage Value', fontsize=12)
-    plt.ylabel('Number of Sea Cells', fontsize=12)
-    plt.title('Distribution of Coverage Values on Sea Cells', fontsize=14, pad=15)
+    for container in ax.containers:
+        ax.bar_label(
+            container,
+            fmt='%d',
+            label_type='edge',
+            padding=3,
+            fontsize=9,
+            fontweight='bold'
+        )
 
-    plt.grid(True, which='both', linestyle='--', alpha=0.5)
-    plt.xticks(bins)
+    # Label
+    ax.set_xlabel('Cell Coverage Value', fontsize=12, labelpad=15)
+    ax.set_ylabel('Number of Sea Cells', fontsize=12, labelpad=15)
+    ax.set_title('Distribution of Coverage Values on Sea Cells', fontsize=14, pad=15)
+
+    ax.grid(True, which='both', linestyle='--', alpha=0.5)
+    ax.set_xticks(bins)
+
+    ax.set_ylim(0, ax.get_ylim()[1] * 1.1)
 
     # Save
     repository = os.path.dirname(path)

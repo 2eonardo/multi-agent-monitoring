@@ -1,6 +1,7 @@
 # constants.py
 
 # Number of iteration
+NUM_RUNS = 10
 NUM_ITERATIONS = 100
 ITERATIONS_STEP = NUM_ITERATIONS//10
 NUM_SAMPLES = 30
@@ -26,5 +27,5 @@ START_ROW = 100
 START_COL = 150
 
 # Random start position of the agents (row, col)
-RANDOM_SPAWN = False
+RANDOM_SPAWN = True
 SPAWN_RADIUS = 20 # Set to 391 minimum to cover all map
