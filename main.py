@@ -69,7 +69,9 @@ def main():
         "decay_rate": c.DECAY_RATE,
         "coverage_history": coverage_history,
         "coverage_percent_history": coverage_percent_history,
-        "trajectory": trajectory
+        "trajectory": trajectory,
+        "final_grid": m.grid,
+        "sea_mask": m.sea_mask
     }
 
     print("\nSimulation completed.")
