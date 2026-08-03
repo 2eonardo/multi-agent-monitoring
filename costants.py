@@ -1,26 +1,25 @@
 # constants.py
 
-# Number of iteration
+# Simulatio data
 NUM_RUNS = 10
-NUM_ITERATIONS = 100
+NUM_ITERATIONS = 720
 ITERATIONS_STEP = NUM_ITERATIONS//10
 NUM_SAMPLES = 30
+t = 5 #s
 
 # map parameters
-DECAY_RATE = 0.95
 NUM_SEA_CELLS = 39330
+DECAY_RATE_REF = 0.95
+LOSS_REF = 1- DECAY_RATE_REF
+TIMESTEP = 30 #s
+LOSS = LOSS_REF * (t/TIMESTEP)
+DECAY_RATE = 1 - LOSS
 
 # agent parameters
-# Suppose the agent dimension negligible respect to the cell
 NUM_AGENTS = 10
 SENSOR_RANGE = 8 # Euclidean distance from the center of a cell to another
-# speed of the agent in m/s
-v_agent = 2
-# pixel_dimension = 10m x 10m
-pixel_dimension = 10
-# Single step duration t in sec
-TIMESTEP = 60
-MAX_DISPLACEMENT = (v_agent*TIMESTEP) // pixel_dimension #range of max step
+v_agent = 2 # m/s
+pixel_dimension = 10 # 10m x 10m
 
 # Start position of the agents (row, col)
 START_ROW = 100

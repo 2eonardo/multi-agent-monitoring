@@ -16,7 +16,8 @@ def main():
     coverage_history_run_0 = None
 
     for run in range(1, c.NUM_RUNS+1):
-        print(f"run: {run} of {c.NUM_RUNS}")
+        print(f"Processing Run: {run}/{c.NUM_RUNS}...")
+
         #Load map
         try:
             m = Map("sea_land_mask_10m_Cecina.npz")
@@ -38,13 +39,11 @@ def main():
         for i in range(c.NUM_AGENTS):
             try:
                 start_r, start_c = spawn_positions[i]
-                new_agent =Agent(
+                new_agent = Agent(
                     start_row=start_r,
                     start_col=start_c,
                     map_reference=m,
-                    sensor_range=c.SENSOR_RANGE,
-                    max_displacement=c.MAX_DISPLACEMENT
-                )
+                    sensor_range=c.SENSOR_RANGE)
                 fleet.append(new_agent)
             except ValueError as e:
                 print(f"Detail: {e}")
@@ -62,21 +61,20 @@ def main():
             m.decay(c.DECAY_RATE)
             m.update_coverage_value()
             # Simultaneous simulation
-            next_position = []
             for agent in fleet:
-                row, col = agent.find_next_position(c.NUM_SAMPLES, fleet)
-                next_position.append((row, col))
-            for i, agent in enumerate(fleet):
-                row, col = next_position[i]
-                agent.update_position(row, col)
+                agent.update_position(c.NUM_SAMPLES, fleet)
+            # next_position = []
+            # for agent in fleet:
+            #     row, col = agent.find_next_position(c.NUM_SAMPLES, fleet)
+            #     next_position.append((row, col))
+            # for i, agent in enumerate(fleet):
+            #     row, col = next_position[i]
+            #     agent.update_position(row, col)
 
             coverage_history.append(m.coverage_value)
             coverage_percent_history.append((m.coverage_value/c.NUM_SEA_CELLS)*100)
             # State for each t
             trajectory.append({"positions": [(a.col, a.row) for a in fleet]})
-
-            print("Iteration: ", t)
-            print(f"Coverage value {t}: {m.coverage_value} Coverage percent {t}: {(m.coverage_value / c.NUM_SEA_CELLS) * 100:.2f}%")
 
         coverage_histories.append(coverage_history)
         percent_histories.append(coverage_percent_history)
@@ -85,6 +83,8 @@ def main():
         if run == 1:
             trajectory_run_0 = trajectory
             coverage_history_run_0 = coverage_history
+
+        print(f"Coverage value: {m.coverage_value} Coverage percent: {(m.coverage_value / c.NUM_SEA_CELLS) * 100:.2f}%")
 
     average_coverage = np.mean(coverage_histories, axis=0)
     average_percent = np.mean(percent_histories, axis=0)

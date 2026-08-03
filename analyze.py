@@ -50,7 +50,7 @@ def main():
     print("\n[Phase 2] Starting rendering...")
 
     try:
-        r.generate_video_from_log(video_data, video_path="results/simulation_video.mp4", fps=6,
+        r.generate_video_from_log(video_data, video_path="results/simulation_video.mp4", fps=24,
                                   iteration_step=c.ITERATIONS_STEP, frames_path="results/frames")
     except ValueError as e:
         print(f"\n[CRITICAL ERROR] {e}")

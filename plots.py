@@ -50,13 +50,13 @@ def save_coverage_table(coverage_history, coverage_percent_history, iteration_st
 
 def save_coverage_plot(coverage_history, iteration_step, path="coverage_plot.png"):
     # Figure dimension
-    plt.figure(figsize=(10, 6))
+    fig , ax = plt.subplots(figsize=(10, 6))
 
     # x-axis assignment
     iterations = list(range(len(coverage_history)))
 
     # Plotting
-    plt.plot(
+    ax.plot(
         iterations,
         coverage_history,
         label='Coverage Value',
@@ -66,18 +66,17 @@ def save_coverage_plot(coverage_history, iteration_step, path="coverage_plot.png
     )
 
     # axis labels
-    plt.xlabel('Time', fontsize=12)
-    plt.ylabel('Coverage value', fontsize=12)
+    ax.set_xlabel('Time', fontsize=12, labelpad=15)
+    ax.set_ylabel('Coverage value', fontsize=12, labelpad=15)
 
     # Title
-    plt.title('Trend of coverage value over time', fontsize=14, pad=15)
-
+    ax.set_title('Trend of coverage value over time', fontsize=14, pad=15)
     # Grid configuration
-    plt.grid(True, linestyle='--', alpha=0.5)
-    plt.xticks(range(0, len(coverage_history), iteration_step))
+    ax.grid(True, linestyle='--', alpha=0.5)
+    ax.set_xticks(range(0, len(coverage_history), iteration_step))
 
     # Legend position
-    plt.legend(loc='lower right')
+    ax.legend(loc='lower right')
 
     # Save plot
     repository = os.path.dirname(path)

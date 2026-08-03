@@ -18,7 +18,7 @@ class Map:
 
     def theorical_coverage(self, agent, row, col):
         #Define limit of the map
-        limit = agent.max_displacement + agent.sensor_range + 1
+        limit = agent.sensor_range + agent.sensor_range + 1
         r_min = max(0, row - limit)
         r_max = min(self.shape[0], row + limit + 1)
         c_min = max(0, col - limit)

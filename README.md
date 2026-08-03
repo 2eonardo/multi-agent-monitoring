@@ -34,5 +34,6 @@ Il codice è suddiviso in moduli indipendenti, ciascuno dei quali racchiude funz
 trova una cella che restituisce un valore di copertura maggiore di quello della cella corrente.
 * **Sviluppo futuro**: Implementazione di un sistema che gestisca i pareggi di copertura.
 ### 3. Introduzione grandezza fisica velocità degli agenti
-*   **Stato attuale**: La velocità degli agenti è una costante utilizzata insieme alla dimensione dei pixel e la durata di una singola iterazione per calcolare la massima distanza percorribile in ogni singolo step.
-
+*   **Stato attuale**: Gli agenti adesso si muovono di una casella ogni turno di simulazione, ogni turno di simulazione corrisponde a 5 secondi nella realtà, coincidendo con il movimento
+* degli agenti rispetto ai pixel che campionano 10 x 10 metri della superificie reale. Gli agenti sono una macchina a stati e agiscono indipendentemente ricalcolando la prossima  tappa 
+* ogni qual volta raggiungono la destinazione.
