@@ -94,7 +94,7 @@ def save_coverage_histogram(map_grid, sea_mask, path):
     bins = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
 
     # Creation of Histogram
-    ax.hist(
+    counts, _ , patches = ax.hist(
         sea_values,
         bins=bins,
         edgecolor='black',
@@ -103,19 +103,23 @@ def save_coverage_histogram(map_grid, sea_mask, path):
         alpha=0.85
     )
 
-    for container in ax.containers:
-        ax.bar_label(
-            container,
-            fmt='%d',
-            label_type='edge',
-            padding=3,
-            fontsize=9,
-            fontweight='bold'
-        )
+    # Cell percentage calculation
+    total_cells = len(sea_values)
+    percentages = (counts / total_cells) * 100
+
+    labels = [f"{pct:.1f}%" if pct > 0 else "0%" for pct in percentages]
+    ax.bar_label(
+        patches,
+        labels=labels,
+        label_type='edge',
+        padding=3,
+        fontsize=9,
+        fontweight='bold'
+    )
 
     # Label
     ax.set_xlabel('Cell Coverage Value', fontsize=12, labelpad=15)
-    ax.set_ylabel('Number of Sea Cells', fontsize=12, labelpad=15)
+    ax.set_ylabel('Number of Sea Cells (%)', fontsize=12, labelpad=15)
     ax.set_title('Distribution of Coverage Values on Sea Cells', fontsize=14, pad=15)
 
     ax.grid(True, which='both', linestyle='--', alpha=0.5)
