@@ -1,3 +1,4 @@
+# renderer.py
 import os
 import numpy as np
 import matplotlib.pyplot as plt
@@ -22,7 +23,8 @@ def generate_video_from_log(log_data, video_path, fps, iteration_step, frames_pa
     # Init video writer (requires: pip install imageio[ffmpeg])
     if imageio is None:
         print("\n[Warning] Library 'imageio' is not installed.")
-        print("Cannot produce video. Only static PNG frames will be saved; imageio[ffmpeg] is required for video generation.")
+        print(
+            "Cannot produce video. Only static PNG frames will be saved; imageio[ffmpeg] is required for video generation.")
         writer = None
     else:
         print(f"\n Video generation '{video_path}'...")
@@ -33,13 +35,18 @@ def generate_video_from_log(log_data, video_path, fps, iteration_step, frames_pa
             writer = imageio.get_writer(video_path, format='FFMPEG', mode='I', fps=fps, macro_block_size=None)
         except Exception as e:
             print(f"[Warning] Error starting writer: {e}")
-            print("Cannot produce video. Only static PNG frames will be saved; imageio[ffmpeg] is required for video generation.")
+            print(
+                "Cannot produce video. Only static PNG frames will be saved; imageio[ffmpeg] is required for video generation.")
             writer = None
 
     # Parameters extraction from log
     map_file_name = log_data["map_file_name"]
     sensor_range = log_data["sensor_range"]
     decay_rate = log_data["decay_rate"]
+    random_spawn = log_data.get("random_spawn", True)
+    spawn_radius = log_data.get("spawn_radius", 20)
+    start_row = log_data.get("start_row", 100)
+    start_col = log_data.get("start_col", 150)
 
     # Load the map to perform the calculations
     m = Map(map_file_name)
@@ -74,13 +81,28 @@ def generate_video_from_log(log_data, video_path, fps, iteration_step, frames_pa
         # Coverage grid
         # Exclude not viewed cell (coverage value < 1%), color: navy, and land cell, color : green
         masked_grid = np.ma.masked_where((~m.sea_mask) | (m.grid < 0.01), m.grid)
-        #Print sea area visited
+        # Print sea area visited
         im = ax.imshow(masked_grid, origin='upper', cmap='viridis', vmin=0.0, vmax=1.0)
 
         # Color bar
         cbar = fig.colorbar(im, ax=ax, orientation='vertical', pad=0.03, shrink=0.75)
         cbar.set_label('Cell coverage value', fontsize=11, labelpad=10)
         cbar.ax.tick_params(labelsize=9)
+
+        # Draw spawn circle
+        if random_spawn and t == 0:
+            spawn_circle = patches.Circle(
+                (start_col, start_row),
+                radius=spawn_radius,
+                facecolor='none',
+                edgecolor='red',
+                linestyle='--',
+                linewidth=1.5,
+                alpha=0.8,
+                zorder=3,
+                label='Spawn Area'
+            )
+            ax.add_patch(spawn_circle)
 
         # Trajectory tracking on the map
         for idx, p in enumerate(positions):
@@ -141,7 +163,16 @@ def generate_video_from_log(log_data, video_path, fps, iteration_step, frames_pa
         ax.set_xlabel("Coordinate X [Cell / px]", fontsize=11, labelpad=8)
         ax.set_ylabel("Coordinate Y [Cell / px]", fontsize=11, labelpad=8)
         ax.grid(True, which='both', color='gray', linestyle='--', alpha=0.25, zorder=1)
-        ax.legend(loc='upper right', frameon=True, facecolor='white', framealpha=0.9, fontsize=9)
+        ax.legend(loc='lower right', bbox_to_anchor=(0.99, 0.06), frameon=True, facecolor='white', framealpha=0.9, fontsize=9)
+
+        # Coverage value
+        current_percent = (recalculated_coverage / 39330) * 100
+
+        info_text = f"Coverage: {recalculated_coverage:.1f} ({current_percent:.2f}%)"
+
+        ax.text(0.98, 0.02, info_text, transform=ax.transAxes, fontsize=10, fontweight='bold',
+                verticalalignment='bottom', horizontalalignment='right',
+                bbox=dict(boxstyle='round,pad=0.5', facecolor='white', alpha=0.85, edgecolor='gray'), zorder=10)
 
         # Frame generation
         if writer is not None:

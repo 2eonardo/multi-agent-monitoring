@@ -20,7 +20,7 @@ def main():
 
         #Load map
         try:
-            m = Map("sea_land_mask_10m_Cecina.npz")
+            m = Map(c.FILE_NAME)
         except FileNotFoundError:
             print("Error: Map file not found.")
             sys.exit()
@@ -63,13 +63,6 @@ def main():
             # Simultaneous simulation
             for agent in fleet:
                 agent.update_position(c.NUM_SAMPLES, fleet)
-            # next_position = []
-            # for agent in fleet:
-            #     row, col = agent.find_next_position(c.NUM_SAMPLES, fleet)
-            #     next_position.append((row, col))
-            # for i, agent in enumerate(fleet):
-            #     row, col = next_position[i]
-            #     agent.update_position(row, col)
 
             coverage_history.append(m.coverage_value)
             coverage_percent_history.append((m.coverage_value/c.NUM_SEA_CELLS)*100)
@@ -92,15 +85,19 @@ def main():
 
     # Storage simulation data
     first_run_trajectory_data = {
-        "map_file_name": "sea_land_mask_10m_Cecina.npz",
+        "map_file_name": c.FILE_NAME,
         "sensor_range": c.SENSOR_RANGE,
         "decay_rate": c.DECAY_RATE,
+        "random_spawn": c.RANDOM_SPAWN,
+        "spawn_radius": c.SPAWN_RADIUS,
+        "start_row": c.START_ROW,
+        "start_col": c.START_COL,
         "trajectory": trajectory_run_0,
         "coverage_history": coverage_history_run_0
     }
 
     media_data = {
-        "map_file_name": "sea_land_mask_10m_Cecina.npz",
+        "map_file_name": c.FILE_NAME,
         "coverage_history": list(average_coverage),
         "coverage_percent_history": list(average_percent),
         "final_grid": average_final_grid,

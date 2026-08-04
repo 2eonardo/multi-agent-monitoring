@@ -1,7 +1,5 @@
 import matplotlib.pyplot as plt
 import os
-import costants
-
 
 def save_coverage_table(coverage_history, coverage_percent_history, iteration_step, path):
     # Data preparation for the table
@@ -48,7 +46,7 @@ def save_coverage_table(coverage_history, coverage_percent_history, iteration_st
     plt.close()
     print(f"Table saved in {path}.")
 
-def save_coverage_plot(coverage_history, iteration_step, path="coverage_plot.png"):
+def save_coverage_plot(coverage_history, iteration_step, path):
     # Figure dimension
     fig , ax = plt.subplots(figsize=(10, 6))
 
@@ -87,7 +85,7 @@ def save_coverage_plot(coverage_history, iteration_step, path="coverage_plot.png
     plt.close()
     print(f"Plot saved in {path}.")
 
-def save_coverage_histogram(map_grid, sea_mask, path="results/coverage_histogram.png"):
+def save_coverage_histogram(map_grid, sea_mask, path):
     sea_values = map_grid[sea_mask]
 
     fig, ax = plt.subplots(figsize=(10, 6))

@@ -1,8 +1,9 @@
 import numpy as np
+import costants as c
 from bresenham_utilities import get_visible_cells
 
 class Map:
-    def __init__(self, filename="sea_land_mask_10m_Cecina.npz"):
+    def __init__(self, filename=c.FILE_NAME):
         #Load Map
         data = np.load(filename) # 39.330 Number o sea cells
         #store data
