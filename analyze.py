@@ -1,14 +1,13 @@
 # analyze.py
 import sys
 import pickle
-import plots as p
-import renderer as r
+from visualization import plots as p, renderer as r
 import costants as c
 
 
 def main():
-    file_media = "results/media_data"
-    file_first_run = "results/first_run_trajectory_data"
+    file_media = "results/data/media_data"
+    file_first_run = "results/data/first_run_trajectory_data"
 
     # Load graph data
     try:
@@ -42,16 +41,16 @@ def main():
 
     # Generation of tables and plots
     print("\n[Phase 1] Generating tables and trend plots...")
-    p.save_coverage_table(coverage_history, coverage_percent_history, c.ITERATIONS_STEP, "results/coverage_table.png")
-    p.save_coverage_plot(coverage_history, c.ITERATIONS_STEP, "results/coverage_plot.png")
-    p.save_coverage_histogram(final_grid, sea_mask, "results/final_coverage_histogram.png")
+    p.save_coverage_table(coverage_history, coverage_percent_history, c.ITERATIONS_STEP, "results/plots/coverage_table.png")
+    p.save_coverage_plot(coverage_history, c.ITERATIONS_STEP, "results/plots/coverage_plot.png")
+    p.save_coverage_histogram(final_grid, sea_mask, "results/plots/final_coverage_histogram.png")
 
     # Generation video and frame
     print("\n[Phase 2] Starting rendering...")
 
     try:
-        r.generate_video_from_log(video_data, video_path="results/simulation_video.mp4", fps=24,
-                                  iteration_step=c.ITERATIONS_STEP, frames_path="results/frames")
+        r.generate_video_from_log(video_data, video_path="results/video/simulation_video.mp4", fps=24,
+                                  iteration_step=c.ITERATIONS_STEP, frames_path="results/video/frames")
     except ValueError as e:
         print(f"\n[CRITICAL ERROR] {e}")
         sys.exit(1)

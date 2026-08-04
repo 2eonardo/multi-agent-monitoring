@@ -1,11 +1,11 @@
 import pickle
 import sys
-from map import Map
-from agent import Agent
+from core.map import Map
+from core.agent import Agent
 import costants as c
 import os
 import numpy as np
-from spawn_utilities import random_spawn
+from core.spawn_utilities import random_spawn
 
 def main():
     coverage_histories = []
@@ -107,10 +107,10 @@ def main():
     print("\nSimulation completed.")
 
     # Save data file
-    file_name_first_run = "results/first_run_trajectory_data"
-    file_name_media = "results/media_data"
+    file_name_first_run = "results/data/first_run_trajectory_data"
+    file_name_media = "results/data/media_data"
     try:
-        os.makedirs("results", exist_ok=True)
+        os.makedirs("results/data", exist_ok=True)
         with open(file_name_first_run, "wb") as f:
             pickle.dump(first_run_trajectory_data, f)
         with open(file_name_media, "wb") as f:

@@ -1,6 +1,6 @@
 import numpy as np
 import costants as c
-from bresenham_utilities import get_visible_cells
+from .bresenham_utilities import get_visible_cells
 
 class Map:
     def __init__(self, filename=c.FILE_NAME):
