@@ -4,7 +4,7 @@ Bachelor's degree project UniFi 2025/26, aiming to study and test an exploration
 
 ---
 
-### Istruzioni per l'uso (How to Run)
+### How to run the project
 Install requirements
 ```bash
 pip install -r requirements.txt 
