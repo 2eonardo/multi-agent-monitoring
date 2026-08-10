@@ -79,7 +79,7 @@ class Agent:
         g_col = self.col
         value = self.map.coverage_value
         for p_row, p_col in samples:
-            coverage  = self.map.theorical_coverage(self, p_row, p_col)
+            coverage  = self.map.query_theoretical_coverage(self.sensor_range, p_row, p_col)
             if coverage > value:
                 value = coverage
                 g_row, g_col = p_row, p_col

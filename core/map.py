@@ -17,21 +17,16 @@ class Map:
         #function to be maximized
         self.coverage_value = 0.0
 
-    def theorical_coverage(self, agent, row, col):
-        #Define limit of the map
-        limit = agent.sensor_range + agent.sensor_range + 1
-        r_min = max(0, row - limit)
-        r_max = min(self.shape[0], row + limit + 1)
-        c_min = max(0, col - limit)
-        c_max = min(self.shape[1], col + limit + 1)
-        # Copy a matrix of the original grid to restore it later
-        subgrid_backup = self.grid[r_min:r_max, c_min:c_max].copy()
+    def query_theoretical_coverage(self, radius, row, col):
+        visible_cells = get_visible_cells(row, col, radius, self)
 
-        self.cell_view(row, col, agent.sensor_range)
-        value = float(np.sum(self.grid[self.sea_mask]))
-        #Restore map
-        self.grid[r_min:r_max, c_min:c_max] = subgrid_backup
-        return value
+        # Calculate the increment in coverage value
+        increment = 0.0
+        for r, c in visible_cells:
+            increment += (1.0 - self.grid[r, c])
+
+        # Return theorical coverage
+        return self.coverage_value + increment
 
     # Update the function value based on the current grid state
     def update_coverage_value(self):
