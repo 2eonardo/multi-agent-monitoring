@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import os
 
-def save_coverage_table(coverage_history, coverage_percent_history, iteration_step, path):
+def save_coverage_table(coverage_history, coverage_percent_history, std_percent_coverage, iteration_step, path):
     # Data preparation for the table
     table_data = []
 
@@ -10,11 +10,13 @@ def save_coverage_table(coverage_history, coverage_percent_history, iteration_st
         if i % iteration_step == 0:
             absolute_value = coverage_history[i]
             percentage = coverage_percent_history[i]
+            std_percentage = std_percent_coverage[i]
 
             table_data.append([
                 i,
-                f"{absolute_value:.4f}",
-                f"{percentage:.2f}%"
+                f"{absolute_value:.2f}",
+                f"{percentage:.2f}",
+                f"{std_percentage:.2f}"
             ])
 
     # figure configuration
@@ -26,8 +28,8 @@ def save_coverage_table(coverage_history, coverage_percent_history, iteration_st
     # Creation of the table
     table = ax.table(
         cellText=table_data,
-        colLabels=["Time", "Coverage Value", "Coverage (%)"],
-        colWidths=[0.20, 0.40, 0.40],
+        colLabels=["Time", "Coverage Value", "Coverage (%)", "Std Dev (%)"],
+        colWidths=[0.15, 0.35, 0.25, 0.25],
         loc='center',
         cellLoc='center'
     )
@@ -46,7 +48,7 @@ def save_coverage_table(coverage_history, coverage_percent_history, iteration_st
     plt.close()
     print(f"Table saved in {path}.")
 
-def save_coverage_plot(coverage_history, iteration_step, path):
+def save_coverage_plot(coverage_history,iteration_step, path):
     # Figure dimension
     fig , ax = plt.subplots(figsize=(10, 6))
 
@@ -57,7 +59,6 @@ def save_coverage_plot(coverage_history, iteration_step, path):
     ax.plot(
         iterations,
         coverage_history,
-        label='Coverage Value',
         color='royalblue',
         linewidth=2,
         linestyle='-'
@@ -65,16 +66,13 @@ def save_coverage_plot(coverage_history, iteration_step, path):
 
     # axis labels
     ax.set_xlabel('Time', fontsize=12, labelpad=15)
-    ax.set_ylabel('Coverage value', fontsize=12, labelpad=15)
+    ax.set_ylabel('Coverage (%)', fontsize=12, labelpad=15)
 
     # Title
     ax.set_title('Trend of coverage value over time', fontsize=14, pad=15)
     # Grid configuration
     ax.grid(True, linestyle='--', alpha=0.5)
     ax.set_xticks(range(0, len(coverage_history), iteration_step))
-
-    # Legend position
-    ax.legend(loc='lower right')
 
     # Save plot
     repository = os.path.dirname(path)
@@ -119,7 +117,7 @@ def save_coverage_histogram(map_grid, sea_mask, path):
 
     # Label
     ax.set_xlabel('Cell Coverage Value', fontsize=12, labelpad=15)
-    ax.set_ylabel('Number of Sea Cells (%)', fontsize=12, labelpad=15)
+    ax.set_ylabel('Number of Sea Cells', fontsize=12, labelpad=15)
     ax.set_title('Distribution of Coverage Values on Sea Cells', fontsize=14, pad=15)
 
     ax.grid(True, which='both', linestyle='--', alpha=0.5)

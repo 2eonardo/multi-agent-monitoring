@@ -43,13 +43,12 @@ def main():
                     start_row=start_r,
                     start_col=start_c,
                     map_reference=m,
-                    sensor_range=c.SENSOR_RANGE)
+                    sensor_range=c.SENSOR_RANGE,
+                    num_samples=c.NUM_SAMPLES)
                 fleet.append(new_agent)
             except ValueError as e:
                 print(f"Detail: {e}")
                 sys.exit()
-
-        m.update_coverage_value()
 
         coverage_history = [m.coverage_value]
         coverage_percent_history = [(m.coverage_value/c.NUM_SEA_CELLS)*100]
@@ -59,10 +58,8 @@ def main():
 
         for t in range(1, c.NUM_ITERATIONS+1):
             m.decay(c.DECAY_RATE)
-            m.update_coverage_value()
-            # Simultaneous simulation
             for agent in fleet:
-                agent.update_position(c.NUM_SAMPLES, fleet)
+                agent.update_position(fleet)
 
             coverage_history.append(m.coverage_value)
             coverage_percent_history.append((m.coverage_value/c.NUM_SEA_CELLS)*100)
@@ -82,6 +79,7 @@ def main():
     average_coverage = np.mean(coverage_histories, axis=0)
     average_percent = np.mean(percent_histories, axis=0)
     average_final_grid = np.mean(final_grids, axis=0)
+    std_percent_coverage = np.std(percent_histories, axis=0)
 
     # Storage simulation data
     first_run_trajectory_data = {
@@ -100,6 +98,7 @@ def main():
         "map_file_name": c.FILE_NAME,
         "coverage_history": list(average_coverage),
         "coverage_percent_history": list(average_percent),
+        "std_percent_coverage": list(std_percent_coverage),
         "final_grid": average_final_grid,
         "sea_mask": m.sea_mask
     }

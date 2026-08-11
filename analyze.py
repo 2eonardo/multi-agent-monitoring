@@ -15,6 +15,7 @@ def main():
             graph_data = pickle.load(f)
         coverage_history = graph_data["coverage_history"]
         coverage_percent_history = graph_data["coverage_percent_history"]
+        std_percent_coverage = graph_data["std_percent_coverage"]
         final_grid = graph_data["final_grid"]
         sea_mask = graph_data["sea_mask"]
         print(f"Graph data successfully loaded from '{file_media}'.")
@@ -41,8 +42,8 @@ def main():
 
     # Generation of tables and plots
     print("\n[Phase 1] Generating tables and trend plots...")
-    p.save_coverage_table(coverage_history, coverage_percent_history, c.ITERATIONS_STEP, "results/plots/coverage_table.png")
-    p.save_coverage_plot(coverage_history, c.ITERATIONS_STEP, "results/plots/coverage_plot.png")
+    p.save_coverage_table(coverage_history, coverage_percent_history, std_percent_coverage, c.ITERATIONS_STEP, "results/plots/coverage_table.png")
+    p.save_coverage_plot(coverage_percent_history, c.ITERATIONS_STEP, "results/plots/coverage_plot.png")
     p.save_coverage_histogram(final_grid, sea_mask, "results/plots/final_coverage_histogram.png")
 
     # Generation video and frame

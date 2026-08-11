@@ -1,10 +1,10 @@
 import math
-from .bresenham_utilities import is_path_free, bresenham_line
+from core.bresenham_utilities import is_path_free, bresenham_line
 import numpy as np
 
 
 class Agent:
-    def __init__(self, start_row: int, start_col: int, map_reference, sensor_range: int = 1):
+    def __init__(self, start_row: int, start_col: int, map_reference, sensor_range: int, num_samples: int):
         # Start position must be in the sea
         if not map_reference.is_sea(start_row, start_col):
             raise ValueError(
@@ -15,6 +15,7 @@ class Agent:
         self.col = start_col
         self.map = map_reference
         self.sensor_range = sensor_range
+        self.num_samples = num_samples
 
         # State machine
         self.state = "IDLE"
@@ -24,11 +25,11 @@ class Agent:
         # Add agent on the map
         self.map.cell_view(self.row, self.col, self.sensor_range)
 
-    def get_samples(self, num_samples: int):
+    def get_samples(self):
 
         # Sampling based on a normal distribution
-        rows = np.random.normal(loc=self.row, scale=self.sensor_range, size=num_samples)
-        cols = np.random.normal(loc=self.col, scale=self.sensor_range, size=num_samples)
+        rows = np.random.normal(loc=self.row, scale=self.sensor_range, size=self.num_samples)
+        cols = np.random.normal(loc=self.col, scale=self.sensor_range, size=self.num_samples)
 
         # Let's round to the nearest cells
         rows = np.round(rows).astype(int)
@@ -92,7 +93,7 @@ class Agent:
         self.col = col
         self.map.cell_view(row, col, self.sensor_range)
 
-    def find_next_position(self, num_samples: int, other_agents: list):
+    def find_next_position(self, other_agents: list):
         next_row, next_col = self.row , self.col
 
         # MOVING work flow
@@ -105,7 +106,7 @@ class Agent:
             # IDLE work flow
             if self.state == "IDLE":
                 # Target research
-                samples = self.get_samples(num_samples)
+                samples = self.get_samples()
                 samples = self.filter_samples(samples, other_agents)
                 target_row, target_col = self.find_goal_point(samples)
 
@@ -129,8 +130,8 @@ class Agent:
 
         return next_row, next_col
 
-    def update_position(self, num_samples: int, other_agents: list):
-        row, col = self.find_next_position(num_samples, other_agents)
+    def update_position(self, other_agents: list):
+        row, col = self.find_next_position(other_agents)
         self.move_to(row, col)
         value = self.map.update_coverage_value()
         return value

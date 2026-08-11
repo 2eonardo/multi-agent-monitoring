@@ -4,10 +4,10 @@
 FILE_NAME = "sea_land_mask_10m_Cecina.npz"
 
 # Simulation data
-NUM_RUNS = 10
+NUM_RUNS = 5
 NUM_ITERATIONS = 720
 ITERATIONS_STEP = NUM_ITERATIONS//10
-NUM_SAMPLES = 30
+NUM_SAMPLES = 50
 
 # agent parameters
 NUM_AGENTS = 10

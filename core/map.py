@@ -1,6 +1,6 @@
 import numpy as np
 import costants as c
-from .bresenham_utilities import get_visible_cells
+from core.bresenham_utilities import get_visible_cells
 
 class Map:
     def __init__(self, filename=c.FILE_NAME):
@@ -41,11 +41,11 @@ class Map:
         return False
 
     # Set cell value to 1 when visited by a robot.
-    # Missing algorithm to handle land barriers between sea cells
     def cell_view(self, row, col, radius):
         if radius == 0:
             if self.is_sea(row, col):
                 self.grid[row, col] = 1.0
+                self.update_coverage_value()
                 return True
             return False
 
@@ -54,8 +54,12 @@ class Map:
         for r, c in cell_viewed:
             self.grid[r, c] = 1.0
             any_cell_updated = True
+
+        if any_cell_updated:
+            self.update_coverage_value()
         return any_cell_updated
 
     # decay function
     def decay(self, decay_rate):
         self.grid[self.sea_mask] = np.clip(self.grid[self.sea_mask] * decay_rate, 0, 1.0)
+        self.update_coverage_value()
