@@ -11,7 +11,6 @@ def main():
     coverage_histories = []
     percent_histories = []
     grids_histories = []
-    #final_grids = []
 
     trajectory_run_0 = None
     coverage_history_run_0 = None
@@ -72,7 +71,6 @@ def main():
         coverage_histories.append(coverage_history)
         percent_histories.append(coverage_percent_history)
         grids_histories.append(grids_history)
-        #final_grids.append(m.grid)
 
         if run == 1:
             trajectory_run_0 = trajectory
@@ -104,7 +102,6 @@ def main():
         "coverage_history": list(average_coverage),
         "coverage_percent_history": list(average_percent),
         "std_percent_coverage": list(std_percent_coverage),
-        #"final_grid": average_final_grid,
         "grids_history": list(average_grids),
         "sea_mask": m.sea_mask
     }

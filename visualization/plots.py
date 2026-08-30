@@ -68,8 +68,6 @@ def save_coverage_plot(coverage_history,iteration_step, path):
     ax.set_xlabel('Time', fontsize=12, labelpad=15)
     ax.set_ylabel('Coverage (%)', fontsize=12, labelpad=15)
 
-    # Title
-    ax.set_title('Trend of coverage value over time', fontsize=14, pad=15)
     # Grid configuration
     ax.grid(True, linestyle='--', alpha=0.5)
     ax.set_xticks(range(0, len(coverage_history), iteration_step))
@@ -118,7 +116,6 @@ def save_coverage_histogram(map_grid, sea_mask, path):
     # Label
     ax.set_xlabel('Cell Coverage Value', fontsize=12, labelpad=15)
     ax.set_ylabel('Number of Sea Cells', fontsize=12, labelpad=15)
-    ax.set_title('Distribution of Coverage Values on Sea Cells', fontsize=14, pad=15)
 
     ax.grid(True, which='both', linestyle='--', alpha=0.5)
     ax.set_xticks(bins)
