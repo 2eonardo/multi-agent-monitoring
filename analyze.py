@@ -16,7 +16,7 @@ def main():
         coverage_history = graph_data["coverage_history"]
         coverage_percent_history = graph_data["coverage_percent_history"]
         std_percent_coverage = graph_data["std_percent_coverage"]
-        final_grid = graph_data["final_grid"]
+        grids_history = graph_data["grids_history"]
         sea_mask = graph_data["sea_mask"]
         print(f"Graph data successfully loaded from '{file_media}'.")
     except FileNotFoundError:
@@ -44,7 +44,10 @@ def main():
     print("\n[Phase 1] Generating tables and trend plots...")
     p.save_coverage_table(coverage_history, coverage_percent_history, std_percent_coverage, c.ITERATIONS_STEP, "results/plots/coverage_table.png")
     p.save_coverage_plot(coverage_percent_history, c.ITERATIONS_STEP, "results/plots/coverage_plot.png")
-    p.save_coverage_histogram(final_grid, sea_mask, "results/plots/final_coverage_histogram.png")
+    for i in range(1, len(grids_history)):
+        step = i*c.ITERATIONS_STEP
+        path = f"results/plots/histograms/coverage_histogram_{step}.png"
+        p.save_coverage_histogram(grids_history[i], sea_mask, path)
 
     # Generation video and frame
     print("\n[Phase 2] Starting rendering...")

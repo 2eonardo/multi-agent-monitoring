@@ -10,7 +10,8 @@ from core.spawn_utilities import random_spawn
 def main():
     coverage_histories = []
     percent_histories = []
-    final_grids = []
+    grids_histories = []
+    #final_grids = []
 
     trajectory_run_0 = None
     coverage_history_run_0 = None
@@ -52,7 +53,7 @@ def main():
 
         coverage_history = [m.coverage_value]
         coverage_percent_history = [(m.coverage_value/c.NUM_SEA_CELLS)*100]
-
+        grids_history = [m.grid.copy()]
         # Sequence of agents position
         trajectory = [{"positions": [(a.col, a.row) for a in fleet]}]
 
@@ -63,12 +64,15 @@ def main():
 
             coverage_history.append(m.coverage_value)
             coverage_percent_history.append((m.coverage_value/c.NUM_SEA_CELLS)*100)
+            if t % c.ITERATIONS_STEP == 0:
+                grids_history.append(m.grid.copy())
             # State for each t
             trajectory.append({"positions": [(a.col, a.row) for a in fleet]})
 
         coverage_histories.append(coverage_history)
         percent_histories.append(coverage_percent_history)
-        final_grids.append(m.grid)
+        grids_histories.append(grids_history)
+        #final_grids.append(m.grid)
 
         if run == 1:
             trajectory_run_0 = trajectory
@@ -78,7 +82,8 @@ def main():
 
     average_coverage = np.mean(coverage_histories, axis=0)
     average_percent = np.mean(percent_histories, axis=0)
-    average_final_grid = np.mean(final_grids, axis=0)
+    #average_final_grid = np.mean(final_grids, axis=0)
+    average_grids = np.mean(grids_histories, axis=0)
     std_percent_coverage = np.std(percent_histories, axis=0)
 
     # Storage simulation data
@@ -99,7 +104,8 @@ def main():
         "coverage_history": list(average_coverage),
         "coverage_percent_history": list(average_percent),
         "std_percent_coverage": list(std_percent_coverage),
-        "final_grid": average_final_grid,
+        #"final_grid": average_final_grid,
+        "grids_history": list(average_grids),
         "sea_mask": m.sea_mask
     }
 
