@@ -41,6 +41,7 @@ def generate_video_from_log(log_data, video_path, fps, iteration_step, frames_pa
 
     # Parameters extraction from log
     map_file_name = log_data["map_file_name"]
+    num_sea_cells = log_data["num_sea_cells"]
     sensor_range = log_data["sensor_range"]
     decay_rate = log_data["decay_rate"]
     random_spawn = log_data.get("random_spawn", True)
@@ -166,7 +167,7 @@ def generate_video_from_log(log_data, video_path, fps, iteration_step, frames_pa
         ax.legend(loc='lower right', bbox_to_anchor=(0.99, 0.06), frameon=True, facecolor='white', framealpha=0.9, fontsize=9)
 
         # Coverage value
-        current_percent = (recalculated_coverage / 39330) * 100
+        current_percent = (recalculated_coverage / num_sea_cells) * 100
 
         info_text = f"Coverage: {recalculated_coverage:.1f} ({current_percent:.2f}%)"
 

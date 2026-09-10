@@ -8,8 +8,10 @@ import numpy as np
 from core.spawn_utilities import random_spawn
 
 def main():
+
+    test_tag = f"_num_agents_{c.NUM_AGENTS}"
+
     coverage_histories = []
-    percent_histories = []
     grids_histories = []
 
     trajectory_run_0 = None
@@ -51,7 +53,6 @@ def main():
                 sys.exit()
 
         coverage_history = [m.coverage_value]
-        coverage_percent_history = [(m.coverage_value/c.NUM_SEA_CELLS)*100]
         grids_history = [m.grid.copy()]
         # Sequence of agents position
         trajectory = [{"positions": [(a.col, a.row) for a in fleet]}]
@@ -62,14 +63,12 @@ def main():
                 agent.update_position(fleet)
 
             coverage_history.append(m.coverage_value)
-            coverage_percent_history.append((m.coverage_value/c.NUM_SEA_CELLS)*100)
             if t % c.ITERATIONS_STEP == 0:
                 grids_history.append(m.grid.copy())
             # State for each t
             trajectory.append({"positions": [(a.col, a.row) for a in fleet]})
 
         coverage_histories.append(coverage_history)
-        percent_histories.append(coverage_percent_history)
         grids_histories.append(grids_history)
 
         if run == 1:
@@ -78,15 +77,12 @@ def main():
 
         print(f"Coverage value: {m.coverage_value} Coverage percent: {(m.coverage_value / c.NUM_SEA_CELLS) * 100:.2f}%")
 
-    average_coverage = np.mean(coverage_histories, axis=0)
-    average_percent = np.mean(percent_histories, axis=0)
-    #average_final_grid = np.mean(final_grids, axis=0)
     average_grids = np.mean(grids_histories, axis=0)
-    std_percent_coverage = np.std(percent_histories, axis=0)
 
     # Storage simulation data
     first_run_trajectory_data = {
         "map_file_name": c.FILE_NAME,
+        "num_sea_cells": c.NUM_SEA_CELLS,
         "sensor_range": c.SENSOR_RANGE,
         "decay_rate": c.DECAY_RATE,
         "random_spawn": c.RANDOM_SPAWN,
@@ -99,9 +95,8 @@ def main():
 
     media_data = {
         "map_file_name": c.FILE_NAME,
-        "coverage_history": list(average_coverage),
-        "coverage_percent_history": list(average_percent),
-        "std_percent_coverage": list(std_percent_coverage),
+        "num_sea_cells": c.NUM_SEA_CELLS,
+        "coverage_history": coverage_histories,
         "grids_history": list(average_grids),
         "sea_mask": m.sea_mask
     }
@@ -109,10 +104,10 @@ def main():
     print("\nSimulation completed.")
 
     # Save data file
-    file_name_first_run = "results/data/first_run_trajectory_data"
-    file_name_media = "results/data/media_data"
+    file_name_first_run = f"results{test_tag}/data/first_run_trajectory_data"
+    file_name_media = f"results{test_tag}/data/media_data"
     try:
-        os.makedirs("results/data", exist_ok=True)
+        os.makedirs(f"results{test_tag}/data", exist_ok=True)
         with open(file_name_first_run, "wb") as f:
             pickle.dump(first_run_trajectory_data, f)
         with open(file_name_media, "wb") as f:

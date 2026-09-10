@@ -85,7 +85,6 @@ class Agent:
                 value = coverage
                 g_row, g_col = p_row, p_col
 
-            #Missing operative flow when coverage value are the same
         return g_row, g_col
 
     def move_to(self, row: int, col: int):
