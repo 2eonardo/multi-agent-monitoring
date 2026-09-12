@@ -10,7 +10,7 @@ ITERATIONS_STEP = NUM_ITERATIONS//10
 NUM_SAMPLES = 50  #filtro distanza
 
 # agent parameters
-NUM_AGENTS = 20 #5 8 12 15 20
+NUM_AGENTS = 10 #5 8 12 15 20
 SENSOR_RANGE = 8
 v_agent = 2 # m/s 1 3
 pixel_dimension = 10 # 10m x 10m

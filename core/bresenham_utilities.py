@@ -35,9 +35,21 @@ def is_path_free(r0, c0, r1, c1, map_reference):
     Returns True if the path is completely clear (sea only), False otherwise.
     """
     path = bresenham_line(r0, c0, r1, c1)
+    r_prev = r0
+    c_prev = c0
     for r, c in path:
         if not map_reference.is_sea(r, c):
             return False
+
+        if r_prev != r and c_prev != c:
+            cell_ort_1 = map_reference.is_sea(r_prev, c)
+            cell_ort_2 = map_reference.is_sea(r, c_prev)
+
+            if not (cell_ort_1 and cell_ort_2):
+                return False
+
+        r_prev = r
+        c_prev = c
     return True
 
 
@@ -57,11 +69,7 @@ def get_visible_cells(r0, c0, radius, map_reference):
     for r in range(min_r, max_r + 1):
         for c in range(min_c, max_c + 1):
             if math.dist((r0, c0), (r, c)) <= radius:
-                line = bresenham_line(r0, c0, r, c)
-
-                for cell_r, cell_c in line:
-                    if not map_reference.is_sea(cell_r, cell_c):
-                        break
-                    visible_set.add((cell_r, cell_c))
+                if is_path_free(r0, c0, r, c, map_reference):
+                    visible_set.add((r, c))
 
     return visible_set
