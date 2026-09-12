@@ -9,7 +9,7 @@ from core.spawn_utilities import random_spawn
 
 def main():
 
-    test_tag = f"_num_agents_{c.NUM_AGENTS}"
+    test_tag = f"_v_agent_{c.v_agent}"
 
     coverage_histories = []
     grids_histories = []
