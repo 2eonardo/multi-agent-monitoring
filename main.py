@@ -83,6 +83,9 @@ def main():
     first_run_trajectory_data = {
         "map_file_name": c.FILE_NAME,
         "num_sea_cells": c.NUM_SEA_CELLS,
+        "num_iterations": c.NUM_ITERATIONS,
+        "iterations_step": c.ITERATIONS_STEP,
+        "v_agent": c.v_agent,
         "sensor_range": c.SENSOR_RANGE,
         "decay_rate": c.DECAY_RATE,
         "random_spawn": c.RANDOM_SPAWN,
@@ -96,6 +99,15 @@ def main():
     media_data = {
         "map_file_name": c.FILE_NAME,
         "num_sea_cells": c.NUM_SEA_CELLS,
+        "num_iterations": c.NUM_ITERATIONS,
+        "iterations_step": c.ITERATIONS_STEP,
+        "v_agent": c.v_agent,
+        "sensor_range": c.SENSOR_RANGE,
+        "decay_rate": c.DECAY_RATE,
+        "random_spawn": c.RANDOM_SPAWN,
+        "spawn_radius": c.SPAWN_RADIUS,
+        "start_row": c.START_ROW,
+        "start_col": c.START_COL,
         "coverage_history": coverage_histories,
         "grids_history": list(average_grids),
         "sea_mask": m.sea_mask

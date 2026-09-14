@@ -11,7 +11,7 @@ except ImportError:
     imageio = None
 
 
-def generate_video_from_log(log_data, video_path, fps, iteration_step, frames_path):
+def generate_video_from_log(log_data, video_path, fps, frames_path):
     """
     Read log file and make:
     1. A mp4 video file.
@@ -42,6 +42,7 @@ def generate_video_from_log(log_data, video_path, fps, iteration_step, frames_pa
     # Parameters extraction from log
     map_file_name = log_data["map_file_name"]
     num_sea_cells = log_data["num_sea_cells"]
+    iterations_step = log_data["iterations_step"]
     sensor_range = log_data["sensor_range"]
     decay_rate = log_data["decay_rate"]
     random_spawn = log_data.get("random_spawn", True)
@@ -189,7 +190,7 @@ def generate_video_from_log(log_data, video_path, fps, iteration_step, frames_pa
             writer.append_data(frame_rgb)
 
         # Frame saving
-        if t % iteration_step == 0:
+        if t % iterations_step == 0:
             save_path = os.path.join(frames_path, f"frame_{t:04d}.png")
             plt.savefig(save_path, bbox_inches='tight', dpi=150)
 

@@ -9,9 +9,8 @@ import costants as c
 
 
 def main():
-    test_tag = f"_spawn_radius_100"
+    test_tag = f""
     fps_video = 24
-    iterations_step = c.ITERATIONS_STEP
     repository = f"results{test_tag}"
     file_media = f"{repository}/data/media_data"
     file_first_run = f"{repository}/data/first_run_trajectory_data"
@@ -21,6 +20,7 @@ def main():
         with open(file_media, "rb") as f:
             graph_data = pickle.load(f)
         num_sea_cells = graph_data["num_sea_cells"]
+        iterations_step = graph_data["iterations_step"]
         raw_runs = graph_data["coverage_history"]
         grids_history = graph_data["grids_history"]
         sea_mask = graph_data["sea_mask"]
@@ -67,8 +67,7 @@ def main():
     print("\n[Phase 2] Starting rendering...")
 
     try:
-        r.generate_video_from_log(video_data, video_path=f"{repository}/video/simulation_video.mp4", fps=fps_video,
-                                  iteration_step=iterations_step, frames_path=f"{repository}/video/frames")
+        r.generate_video_from_log(video_data, video_path=f"{repository}/video/simulation_video.mp4", fps=fps_video,frames_path=f"{repository}/video/frames")
     except ValueError as e:
         print(f"\n[CRITICAL ERROR] {e}")
         sys.exit(1)
