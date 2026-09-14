@@ -40,7 +40,7 @@ class Agent:
             # 1. Check if the sampled point is in the sea
             if self.map.is_sea(r, c):
                 #samples.add((r, c))
-                # 2. Check if the sampled point is within the sensor range
+                #2. Check if the sampled point is within the sensor range
                 dist = math.dist((self.row, self.col), (r, c))
                 if dist <= self.sensor_range:
                     samples.add((r, c))

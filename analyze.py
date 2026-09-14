@@ -9,7 +9,9 @@ import costants as c
 
 
 def main():
-    test_tag = f"_num_agents_{c.NUM_AGENTS}"
+    test_tag = f"_spawn_radius_100"
+    fps_video = 24
+    iterations_step = c.ITERATIONS_STEP
     repository = f"results{test_tag}"
     file_media = f"{repository}/data/media_data"
     file_first_run = f"{repository}/data/first_run_trajectory_data"
@@ -54,10 +56,10 @@ def main():
 
     # Generation of tables and plots
     print("\n[Phase 1] Generating tables and trend plots...")
-    p.save_coverage_table(coverage_history, coverage_percent_history, std_percent_coverage, c.ITERATIONS_STEP, f"{repository}/plots/coverage_table.png")
-    p.save_coverage_plot(coverage_percent_history, c.ITERATIONS_STEP, f"{repository}/plots/coverage_plot.png")
+    p.save_coverage_table(coverage_history, coverage_percent_history, std_percent_coverage, iterations_step, f"{repository}/plots/coverage_table.png")
+    p.save_coverage_plot(coverage_percent_history, iterations_step, f"{repository}/plots/coverage_plot.png")
     for i in range(1, len(grids_history)):
-        step = i*c.ITERATIONS_STEP
+        step = i*iterations_step
         path = f"{repository}/plots/histograms/coverage_histogram_{step}.png"
         p.save_coverage_histogram(grids_history[i], sea_mask, path)
 
@@ -65,8 +67,8 @@ def main():
     print("\n[Phase 2] Starting rendering...")
 
     try:
-        r.generate_video_from_log(video_data, video_path=f"{repository}/video/simulation_video.mp4", fps=24,
-                                  iteration_step=c.ITERATIONS_STEP, frames_path=f"{repository}/video/frames")
+        r.generate_video_from_log(video_data, video_path=f"{repository}/video/simulation_video.mp4", fps=fps_video,
+                                  iteration_step=iterations_step, frames_path=f"{repository}/video/frames")
     except ValueError as e:
         print(f"\n[CRITICAL ERROR] {e}")
         sys.exit(1)

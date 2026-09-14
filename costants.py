@@ -7,7 +7,7 @@ FILE_NAME = "sea_land_mask_10m_Cecina.npz"
 NUM_RUNS = 100
 NUM_ITERATIONS = 720
 ITERATIONS_STEP = NUM_ITERATIONS//10
-NUM_SAMPLES = 50  #filtro distanza
+NUM_SAMPLES = 50
 
 # agent parameters
 NUM_AGENTS = 10 #5 8 12 15 20
