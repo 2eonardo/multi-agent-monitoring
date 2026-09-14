@@ -6,10 +6,10 @@ FILE_NAME = "sea_land_mask_10m_Cecina.npz"
 # Simulation data
 NUM_RUNS = 100
 NUM_ITERATIONS = 720
-ITERATIONS_STEP = NUM_ITERATIONS//10
-NUM_SAMPLES = 50
+ITERATIONS_STEP = NUM_ITERATIONS//12
 
 # agent parameters
+NUM_SAMPLES = 50
 NUM_AGENTS = 10 #5 8 12 15 20
 SENSOR_RANGE = 8
 v_agent = 2 # m/s 1 3

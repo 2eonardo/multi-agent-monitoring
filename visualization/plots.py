@@ -1,19 +1,24 @@
 import matplotlib.pyplot as plt
 import os
 
-def save_coverage_table(coverage_history, coverage_percent_history, std_percent_coverage, iteration_step, path):
+import numpy as np
+
+import costants as c
+
+def save_coverage_table(coverage_history, coverage_percent_history, std_percent_coverage,num_iterations, iteration_step, dt, path):
     # Data preparation for the table
     table_data = []
 
     # Sampling the next iterations
-    for i in range(0, len(coverage_history)):
+    for i in range(0, num_iterations+1):
         if i % iteration_step == 0:
             absolute_value = coverage_history[i]
             percentage = coverage_percent_history[i]
             std_percentage = std_percent_coverage[i]
+            minutes = int((i*dt)/60)
 
             table_data.append([
-                i,
+                f"{minutes}",
                 f"{absolute_value:.2f}",
                 f"{percentage:.2f}",
                 f"{std_percentage:.2f}"
@@ -28,7 +33,7 @@ def save_coverage_table(coverage_history, coverage_percent_history, std_percent_
     # Creation of the table
     table = ax.table(
         cellText=table_data,
-        colLabels=["Time", "Coverage Value", "Coverage (%)", "Std Dev (%)"],
+        colLabels=["Time (min)", "Coverage Value", "Coverage (%)", "Std Dev (%)"],
         colWidths=[0.15, 0.35, 0.25, 0.25],
         loc='center',
         cellLoc='center'
@@ -48,16 +53,17 @@ def save_coverage_table(coverage_history, coverage_percent_history, std_percent_
     plt.close()
     print(f"Table saved in {path}.")
 
-def save_coverage_plot(coverage_history,iteration_step, path):
+def save_coverage_plot(coverage_history,num_iterations,iteration_step,dt, path):
     # Figure dimension
     fig , ax = plt.subplots(figsize=(10, 6))
 
     # x-axis assignment
-    iterations = list(range(len(coverage_history)))
+    simulation_time = (num_iterations * dt)/60
+    x = np.linspace(0, simulation_time, num_iterations+1)
 
     # Plotting
     ax.plot(
-        iterations,
+        x,
         coverage_history,
         color='royalblue',
         linewidth=2,
@@ -65,12 +71,12 @@ def save_coverage_plot(coverage_history,iteration_step, path):
     )
 
     # axis labels
-    ax.set_xlabel('Time', fontsize=12, labelpad=15)
+    ax.set_xlabel('Time (min)', fontsize=12, labelpad=15)
     ax.set_ylabel('Coverage (%)', fontsize=12, labelpad=15)
 
     # Grid configuration
     ax.grid(True, linestyle='--', alpha=0.5)
-    ax.set_xticks(range(0, len(coverage_history), iteration_step))
+    ax.set_xticks(np.arange(0, simulation_time + 1, 10))
 
     # Save plot
     repository = os.path.dirname(path)
@@ -81,7 +87,7 @@ def save_coverage_plot(coverage_history,iteration_step, path):
     plt.close()
     print(f"Plot saved in {path}.")
 
-def save_coverage_histogram(map_grid, sea_mask, path):
+def save_coverage_histogram(map_grid, sea_mask,num_cells, path):
     sea_values = map_grid[sea_mask]
 
     fig, ax = plt.subplots(figsize=(10, 6))
@@ -100,8 +106,7 @@ def save_coverage_histogram(map_grid, sea_mask, path):
     )
 
     # Cell percentage calculation
-    total_cells = len(sea_values)
-    percentages = (counts / total_cells) * 100
+    percentages = (counts / num_cells) * 100
 
     labels = [f"{pct:.1f}%" if pct > 0 else "0%" for pct in percentages]
     ax.bar_label(

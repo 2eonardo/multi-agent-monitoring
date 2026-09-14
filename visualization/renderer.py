@@ -3,6 +3,8 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
+
+import costants
 from core.map import Map
 
 try:
@@ -43,18 +45,19 @@ def generate_video_from_log(log_data, video_path, fps, frames_path):
     map_file_name = log_data["map_file_name"]
     num_sea_cells = log_data["num_sea_cells"]
     iterations_step = log_data["iterations_step"]
+    dt = log_data["t"]
+    num_agents = log_data["num_agents"]
     sensor_range = log_data["sensor_range"]
     decay_rate = log_data["decay_rate"]
-    random_spawn = log_data.get("random_spawn", True)
-    spawn_radius = log_data.get("spawn_radius", 20)
-    start_row = log_data.get("start_row", 100)
-    start_col = log_data.get("start_col", 150)
+    random_spawn = log_data["random_spawn"]
+    spawn_radius = log_data["spawn_radius"]
+    start_row = log_data["start_row"]
+    start_col = log_data["start_col"]
 
     # Load the map to perform the calculations
     m = Map(map_file_name)
 
     # Init agent trajectory tracking
-    num_agents = len(log_data["trajectory"][0]["positions"])
     path_histories = [[] for _ in range(num_agents)]
 
     # Time cycle reconstruction and drawing of all frames
@@ -160,7 +163,15 @@ def generate_video_from_log(log_data, video_path, fps, frames_path):
                 f"Verify the parameters"
             )
 
-        ax.set_title(f"Multi-Agent Exploration System - Time Istant t = {t}", fontsize=14, fontweight='bold',
+        total_seconds = int(t * dt)
+        hours = total_seconds // 3600
+        minutes = (total_seconds % 3600) // 60
+        seconds = total_seconds % 60
+
+        # Formatta sempre come HH:MM:SS (es. 00:00:05, 00:01:00, ecc.)
+        time_str = f"{hours:02d}:{minutes:02d}:{seconds:02d}"
+
+        ax.set_title(f"Multi-Agent Exploration System - Time {time_str}", fontsize=14, fontweight='bold',
                      pad=15)
         ax.set_xlabel("Coordinate X [Cell / px]", fontsize=11, labelpad=8)
         ax.set_ylabel("Coordinate Y [Cell / px]", fontsize=11, labelpad=8)

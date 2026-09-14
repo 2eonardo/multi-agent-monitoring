@@ -3,7 +3,7 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 
-def plot_multiple_curves(curves_dict, xlabel, ylabel, save_path, time, time_minutes):
+def plot_multiple_curves(curves_dict, xlabel, ylabel, save_path, time_minutes):
 
     fig, ax = plt.subplots(figsize=(10, 6))
     colors = plt.cm.tab10.colors
@@ -13,10 +13,7 @@ def plot_multiple_curves(curves_dict, xlabel, ylabel, save_path, time, time_minu
         color = colors[idx % len(colors)]
         y = np.array(y_data)
 
-        if time:
-            x = np.linspace(0, time_minutes, len(y))
-        else:
-            x = np.arange(len(y))
+        x = np.linspace(0, time_minutes, len(y))
 
         ax.plot(x, y, label=label, color=color, linewidth=2)
 

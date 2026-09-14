@@ -9,7 +9,7 @@ from core.spawn_utilities import random_spawn
 
 def main():
 
-    test_tag = f"_spawn_radius_{c.SPAWN_RADIUS}"
+    test_tag = f""
 
     coverage_histories = []
     grids_histories = []
@@ -83,11 +83,17 @@ def main():
     first_run_trajectory_data = {
         "map_file_name": c.FILE_NAME,
         "num_sea_cells": c.NUM_SEA_CELLS,
+        "pixel_dimension": c.pixel_dimension,
+        "decay_rate_ref": c.DECAY_RATE_REF,
+        "timestep": c.TIMESTEP,
+        "decay_rate": c.DECAY_RATE,
         "num_iterations": c.NUM_ITERATIONS,
         "iterations_step": c.ITERATIONS_STEP,
+        "t": c.t,
         "v_agent": c.v_agent,
         "sensor_range": c.SENSOR_RANGE,
-        "decay_rate": c.DECAY_RATE,
+        "num_agents": c.NUM_AGENTS,
+        "num_samples": c.NUM_SAMPLES,
         "random_spawn": c.RANDOM_SPAWN,
         "spawn_radius": c.SPAWN_RADIUS,
         "start_row": c.START_ROW,
@@ -99,11 +105,18 @@ def main():
     media_data = {
         "map_file_name": c.FILE_NAME,
         "num_sea_cells": c.NUM_SEA_CELLS,
+        "pixel_dimension": c.pixel_dimension,
+        "decay_rate_ref": c.DECAY_RATE_REF,
+        "timestep": c.TIMESTEP,
+        "decay_rate": c.DECAY_RATE,
+        "num_runs": c.NUM_RUNS,
         "num_iterations": c.NUM_ITERATIONS,
         "iterations_step": c.ITERATIONS_STEP,
+        "t": c.t,
         "v_agent": c.v_agent,
         "sensor_range": c.SENSOR_RANGE,
-        "decay_rate": c.DECAY_RATE,
+        "num_agents": c.NUM_AGENTS,
+        "num_samples": c.NUM_SAMPLES,
         "random_spawn": c.RANDOM_SPAWN,
         "spawn_radius": c.SPAWN_RADIUS,
         "start_row": c.START_ROW,

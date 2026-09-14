@@ -20,7 +20,9 @@ def main():
         with open(file_media, "rb") as f:
             graph_data = pickle.load(f)
         num_sea_cells = graph_data["num_sea_cells"]
+        num_iterations = graph_data["num_iterations"]
         iterations_step = graph_data["iterations_step"]
+        dt = graph_data["t"]
         raw_runs = graph_data["coverage_history"]
         grids_history = graph_data["grids_history"]
         sea_mask = graph_data["sea_mask"]
@@ -56,12 +58,12 @@ def main():
 
     # Generation of tables and plots
     print("\n[Phase 1] Generating tables and trend plots...")
-    p.save_coverage_table(coverage_history, coverage_percent_history, std_percent_coverage, iterations_step, f"{repository}/plots/coverage_table.png")
-    p.save_coverage_plot(coverage_percent_history, iterations_step, f"{repository}/plots/coverage_plot.png")
-    for i in range(1, len(grids_history)):
+    p.save_coverage_table(coverage_history, coverage_percent_history, std_percent_coverage,num_iterations, iterations_step,dt ,f"{repository}/plots/coverage_table.png")
+    p.save_coverage_plot(coverage_percent_history,num_iterations, iterations_step,dt , f"{repository}/plots/coverage_plot.png")
+    for i in range(0, len(grids_history)):
         step = i*iterations_step
         path = f"{repository}/plots/histograms/coverage_histogram_{step}.png"
-        p.save_coverage_histogram(grids_history[i], sea_mask, path)
+        p.save_coverage_histogram(grids_history[i], sea_mask,num_sea_cells, path)
 
     # Generation video and frame
     print("\n[Phase 2] Starting rendering...")
