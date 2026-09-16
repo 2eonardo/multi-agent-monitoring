@@ -9,7 +9,7 @@ from core.spawn_utilities import random_spawn
 
 def main():
 
-    test_tag = f""
+    test_tag = f"_spawn_radius_{c.SPAWN_RADIUS}"
 
     coverage_histories = []
     grids_histories = []

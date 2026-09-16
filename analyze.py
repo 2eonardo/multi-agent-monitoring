@@ -9,7 +9,7 @@ import costants as c
 
 
 def main():
-    test_tag = f""
+    test_tag = f"_spawn_radius_100"
     fps_video = 24
     repository = f"results{test_tag}"
     file_media = f"{repository}/data/media_data"

@@ -14,16 +14,26 @@ def calculate_data(raw_runs, num_sea_cells):
     return (raw_mean / num_sea_cells) * 100
 
 def main():
-    directory = "no_filter"
-    test_tag = "range filter"
+    directory = "num_agents"
+    test_tag = "Agents"
     # Data for the multi-curve graph
     curves_input = {
-        f"With {test_tag}": "results/data/media_data",
-        f"Without {test_tag}": "results_no_filter/data/media_data"
+        f"5 {test_tag}": "results_num_agents_5/data/media_data",
+        f"8 {test_tag}": "results_num_agents_8/data/media_data",
+        f"10 {test_tag}": "results/data/media_data",
+        f"12 {test_tag}": "results_num_agents_12/data/media_data",
+        f"15 {test_tag}": "results_num_agents_15/data/media_data",
+        f"20 {test_tag}": "results_num_agents_20/data/media_data"
     }
 
     # Data for discrete graph
     discrete_input = {
+        5 : "results_num_agents_5/data/media_data",
+        8 : "results_num_agents_8/data/media_data",
+        10 : "results/data/media_data",
+        12 : "results_num_agents_12/data/media_data",
+        15 : "results_num_agents_15/data/media_data",
+        20 : "results_num_agents_20/data/media_data"
     }
 
     if curves_input:
