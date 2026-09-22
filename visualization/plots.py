@@ -3,7 +3,7 @@ import os
 
 import numpy as np
 
-import costants as c
+import constants as c
 
 def save_coverage_table(coverage_history, coverage_percent_history, std_percent_coverage,num_iterations, iteration_step, dt, path):
     # Data preparation for the table

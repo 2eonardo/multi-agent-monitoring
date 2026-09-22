@@ -1,5 +1,5 @@
 import numpy as np
-import costants as c
+import constants as c
 from core.bresenham_utilities import get_visible_cells
 
 class Map:

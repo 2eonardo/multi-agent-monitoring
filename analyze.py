@@ -5,7 +5,7 @@ import pickle
 import numpy as np
 
 from visualization import plots as p, renderer as r
-import costants as c
+import constants as c
 
 
 def main():

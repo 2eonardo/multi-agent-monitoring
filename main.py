@@ -2,7 +2,7 @@ import pickle
 import sys
 from core.map import Map
 from core.agent import Agent
-import costants as c
+import constants as c
 import os
 import numpy as np
 from core.spawn_utilities import random_spawn
